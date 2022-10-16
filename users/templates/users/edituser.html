@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+{% block content %}
+<h1>Edit account</h1>
+
+<form method="POST" action="{% url 'edit-account' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="submits"/>
+</form>
+
+
+{% endblock %}
