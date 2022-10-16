@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Tutorial</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/lightbox.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/images.css' %}">
+    
+    <script
+      type="text/javascript"src="{% static 'js/lightbox-plus-jquery.min.js' %}"></script>
+  </head>
+  <style>
+    body {
+      text-shadow: 8px 8px 10px #0000008c;
+    
+      background-image: url(https://cdn.wallpapersafari.com/20/43/Bw6ZSG.jpg);
+      background-color: #343a40;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,600,600i");
+
+    html,
+    body {
+      margin: 0;
+      height: 120%;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .header {
+      width: 100%;
+      position: absolute;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      align-content: flex-start;
+      /* height:50px; */
+      /* min-height:400px; */
+      /* max-height:550px; */
+      /* min-width:300px; */
+      color: #eee;
+    }
+
+    /* .header:after{
+    content:"";
+    width:100%;
+    height:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    z-index:-1;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.12) 40%,rgba(27,32,48,1) 100%);
+  } */
+
+    .header a {
+      color: #eee;
+    }
+
+    .menu {
+      display: block;
+      width: 35px;
+      height: 20px;
+      border: 2px solid rgb(120, 24, 147);
+      border-radius: 3px;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      /* text-decoration: none; */
+    }
+
+
+    .menu:after {
+      /* content: ""; */
+      display: block;
+      width: 20px;
+      height: 3px;
+      /* background: #fff; */
+      position: absolute;
+      margin: 0 auto;
+      top: 5px;
+      left: 0;
+      right: 0;
+      box-shadow: 0 8px, 0 16px;
+    }
+
+    .logo {
+      border: 2px solid rgb(120, 24, 147);
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      align-content: center;
+      margin: 20px;
+      /* padding: 0px 10px;
+      font-weight: 900; */
+      /* font-size: 1.1em;
+      line-height: 1; */
+      box-sizing: border-box;
+      width: 45px;
+      height: 30px;
+    }
+
+    .sides,
+    .info {
+      /* flex: 0 0 auto; */
+      width: 50%;
+    }
+
+    .info {
+      width: 100%;
+      /* padding:15% 10% 0 10%; */
+      text-align: center;
+      text-shadow: 0 2px 3px rgb(120, 24, 147);
+      /* height:75px; */
+    }
+
+    .author {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: url(https://i.imgur.com/6DLCsZcb.jpg) center no-repeat;
+      background-size: cover;
+      box-shadow: 0 2px 3px rgba(153, 61, 203, 0.3);
+      margin-bottom: 3px;
+    }
+
+    .info h4,
+    .meta {
+      font-size: 0.7em;
+    }
+
+    .meta {
+      font-style: italic;
+    }
+
+    @keyframes grow {
+      0% {
+        transform: scale(1) translateY(0px);
+      }
+      50% {
+        transform: scale(1.2) translateY(-400px);
+      }
+    }
+
+    .content {
+      padding: 5% 10%;
+      text-align: justify;
+    }
+
+    .btn {
+      color: rgb(27, 27, 54);
+      border: 2px solid;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-block;
+      padding: 5px 10px;
+      font-weight: 600;
+    }
+  </style>
+  {% if page %}
+  <body>
+  <div>
+    <div class="header">
+      <div class="sides">
+        {% if request.GET.next %}
+        <a  href="{{request.GET.next}}" class="logo">Back</a>
+        {% else %}
+        <a  href="{% url 'gallery' mod.id %}" class="logo">Back</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="info">
+      <h1>{{mod.title}}'s gallery
+        <br/>
+        Editing u'r images 
+      </h1>
+      <div class="meta">
+        <a href="{% url 'current-profile' request.user.id %}"><img target="_b" class="author" src="{{request.user.profile.profile_image.url}}"></a>
+        <br />
+        <a  target="_b">Editing as user: {{request.user.profile}} </a>
+      </div>
+      <div class="info">
+        <a href="{% url 'add-images' mod.id %}?next={{request.path}}" style="color: black"><p>Add</p></a>
+      <div class="container1">
+        <div id="gallery">
+          {% if images %}
+          {% for image in images %}
+            <a href="{{image.img.url}}" data-lightbox="mygallery"><img src="{{image.img.url}}"/></a>
+            <a href="{% url 'delete-img' image.id %}?next={{request.path}}" style="color: black"><p>Delete</p></a>
+          {% endfor %}
+          {% else %}
+          <a>No results</a>
+          {% endif %}
+          
+        </div>
+      </div>
+      </div>
+    </div>
+    
+  </body>
+  {% else %}
+  <body>
+    <div class="header">
+      <div class="sides">
+        <a href="{% url 'modpage' mod.id %}" class="logo">Back</a>
+      </div>
+      <div class="sides"><a href="{% url 'edit-gallery' mod.id%}?next={{request.path}}" class="menu">Edit</a></div>
+    </div>
+
+    <div class="info">
+      <h1>{{mod.title}}'s gallery
+        <br/>
+        Author images
+      </h1>
+      <div class="meta">
+        <a href="{% url 'current-profile' mod.owner.id %}"><img target="_b" class="author" src="{{mod.owner.profile_image.url}}"></a>
+        <!-- <a href="{% url 'current-profile' mod.owner.id %}" target="_b" class="author"><img src=""></a> -->
+        <br />
+        By
+        <a  target="_b">{{mod.owner}} </a>at {{mod.created}}
+      </div>
+    </div>
+    <div class="info">
+    <div class="container1">
+      <div id="gallery">
+        {% if Author %}
+        {% for image in Author %}
+          <a href="{{image.img.url}}" data-lightbox="mygallery"><img src="{{image.img.url}}"/></a>
+          
+        {% endfor %}
+        {% else %}
+        <a>No results</a>
+        {% endif %}
+        
+      </div>
+    </div>
+    <br />
+    <div class="info">
+      <h1>User images</h1>
+    <div class="container1">
+      <div id="gallery">
+        {% if Users %}
+        {% for image in Users %}
+            <a href="{{image.img.url}}" data-lightbox="mygallery"><img src="{{image.img.url}}"/></a>
+        {% endfor %}
+        {% else %}
+        <a  target="_b">No results</a>
+        {% endif %}
+        
+      </div>
+    </div>
+  </body>
+  {% endif %}
+</html>

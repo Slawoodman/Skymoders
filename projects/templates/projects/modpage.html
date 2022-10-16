@@ -1,0 +1,65 @@
+{% extends 'main.html '%}
+{% block content %}
+
+<body>
+  <!-- Main Section -->
+  <main class="projects">
+    <section class="hero-section text-center">
+      <div class="container container--narrow">
+        <div class="hero-section__box">
+          <h2>Search for <span>mods</span></h2>
+        </div>
+
+        <div class="hero-section__search">
+          <form class="form" action="{% url 'home' %}" method="get">
+            <div class="form__field">
+              <label for="formInput#search">Search By Mods </label>
+              <input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}"
+                placeholder="Search by Mod Title" />
+            </div>
+
+            <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- Search Result: DevList -->
+    <section class="projectsList">
+      <div class="container">
+        <div class="grid grid--three">
+          {% for mod in mods %}
+          <div class="column">
+            <div class="card project">
+            
+              <a href="{% url 'modpage' mod.id %}" class="project">
+                <img class="project__thumbnail" src="{{ mod.getImage }}" alt="project thumbnail" />
+                <div class="card__body">
+                  <h3 class="project__title">{{ mod.title }}</h3>
+                  {% if mod.owner.id %}
+                  <p><a class="project__author" href='{% url "current-profile" mod.owner.id %}'>By {{mod.owner}}</a></p>
+                  {% endif %}
+                  <p class="project--rating">
+                    <span style="font-weight: bold;">{{mod.vote_ration}}%</span>
+                     Postitive Feedback ({{mod.vote_total}} Vote{{mod.vote_total|pluralize:"s"}})
+                  </p>
+                  <div class="project__tags">
+                    {% for tag in mod.tags.all|slice:"3"%}
+                    <span class="tag tag--pill tag--main">
+                      <small>{{ tag }}</small>
+                    </span>
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% include 'pagination.html' with queryset=mods custom_range=custom_range%}
+    
+  </main>
+</body>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'main.html' %}
+{% block content %}
+<body>
+  <!-- Main Section -->
+  <main class="singleProject my-md">
+    <div class="container">
+      <div class="layout">
+        <div class="column column--1of3">
+          <h3 class="singleProject__subtitle">Tags for this mod</h3>
+          <div class="singleProject__toolStack">
+            {% for tag in mod.tags.all %}
+            <span class="tag tag--pill tag--sub tag--lg">
+              <small>{{tag}}</small>
+            </span>
+            {% endfor %}
+          </div>
+          <a class="singleProject__liveLink" href="{% url 'gallery' mod.id %}?next={{request.path}}" target="_blank"><i class="im im-external-link"></i>Mod gallery
+          </a>
+          {% if mod.download_link %}
+          <a class="singleProject__liveLink" href="{{ mod.download_link }}" target="_blank"><i class="im im-external-link"></i>Download link
+          </a>
+          {% endif %}
+          <!-- {% if mod.gallery_set.all %}
+          
+          {% endif %} -->
+        </div>
+        <div class="column column--2of3">
+          <img class="singleProject__preview" src="{{ mod.getImage }}" alt="portfolio thumbnail" />
+          <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer">{{ mod.owner }}</a>
+          <h2 class="singleProject__title">{{mod.title}}</h2>
+          {% if mod.description %}
+            <h3 class="singleProject__subtitle">About the Mod</h3>
+            <div class="singleProject__info">
+              {{mod.description|linebreaksbr}}
+            </div>
+          {% endif %}
+          <div class="comments">
+            <h3 class="singleProject__subtitle">Feedback</h3>
+            <h5 class="project--rating">
+              {{mod.vote_ration}}% Postitive Feedback ({{mod.vote_total}} Vote{{mod.vote_total|pluralize:"s"}})
+            </h5>
+            {% if request.user.profile.id in mod.getVoters%}
+              <p>U have already submited review for this project</p>
+            {% elif request.user.profile == mod.owner %}
+              <p>U  can't review u'r own work </p>
+            {% elif request.user.is_authenticated %}
+
+            <form class="form" action="{% url 'modpage' mod.id %}" method="POST">
+              {% csrf_token %}
+              {% for field in form %}
+              <!-- Textarea -->
+              <div class="form__field">
+                <label for="formInput#textarea">{{field.label}}</label>
+                {{field}}
+              </div>
+              {% endfor %}
+              <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
+              
+            </form>
+            {% else %}
+              <a href="{% url 'login-user' %}?next={{request.path}}">Login to leave a review</a>
+            {% endif %}
+            <div class="commentList">
+              {% for review in mod.review_set.all %}
+              {% if review.body %}
+              <div class="comment">
+                <a href="{% url 'current-profile' review.owner.id %}">
+                  <img class="avatar avatar--md"
+                    src="{{review.owner.profile_image.url }}" alt="user" />
+                </a>
+                <div class="comment__details">
+                  <a href="{% url 'current-profile' review.owner.id %}" class="comment__author">{{review.owner.name}}</a>
+                  <p class="comment__info">{{review.body|linebreaksbr}}</p>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+</body>
+{% endblock %}
