@@ -7,7 +7,7 @@ from .models import Mod, Review
 class ModForm(ModelForm):
     class Meta:
         model = Mod
-        fields = ['title', 'featured_image', 'description', 'download_link', 'tags']
+        fields = ['title', 'featured_image', 'description', 'modfile', 'tags']
         widgets  = {
             'tags': forms.CheckboxSelectMultiple(),
         }

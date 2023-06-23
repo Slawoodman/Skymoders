@@ -1,17 +1,21 @@
 import re
-from sys import flags
 from django.db import models
 import uuid
 from users.models import Profile
+from django.core.exceptions import ValidationError
+
+
+def validation_file(value):
+    if not value.name.endswith(('.zip', '.rar', '.7z')):
+        raise ValidationError('Only Zip and rar are allowed')
 
 
 class Mod(models.Model):
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
     featured_image = models.ImageField(null=True, blank=True, upload_to='modtitle/', default = 'default.png')
-    download_link = models.CharField(max_length=2000)
+    modfile = models.FileField(upload_to="files/", validators=[validation_file])
     tags = models.ManyToManyField('Tag', blank=True)
     vote_total = models.IntegerField(null=True, default=0, blank=True)
     vote_ration = models.IntegerField(null=True, default=0, blank=True)

@@ -1,11 +1,14 @@
-from email.mime import image
-from multiprocessing import context
+import users
+import os
+import mimetypes
+
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-import users
-
+from django.http import HttpResponse
 from users.views import profile
+
+
 from . import utils
 from .models import Mod, Gallery
 from .forms import ModForm, ReviewForm
@@ -75,6 +78,37 @@ def updateMod(request, pk):
              
     context = {'forms': forms}
     return render(request, 'projects/form-template.html', context)
+
+
+def download_view(request, pk):
+    try:
+        file_instance = Mod.objects.get(id=pk)
+    except Mod.DoesNotExist:
+        messages.error(request, "File not found.")
+        return redirect('modpage', pk=file_instance.id)
+
+    file_path = file_instance.modfile.path
+    file_name = os.path.basename(file_path)
+    original_extension = os.path.splitext(file_name)[1]
+
+    # Set the content type based on the file extension
+    content_type, _ = mimetypes.guess_type(file_path)
+    if content_type is None:
+        content_type = 'application/octet-stream'
+
+    response = HttpResponse(content_type=content_type)
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    try:
+        with open(file_path, 'rb') as f:
+            response.write(f.read())
+
+        messages.success(request, "File is successful downloaded.")
+        return response
+    
+    except Exception as e:
+        messages.error(request, f"File download failed: {str(e)}")
+        return redirect('modpage', pk=file_instance.id)
 
 
 @login_required(login_url='login-user')

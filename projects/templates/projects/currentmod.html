@@ -16,8 +16,8 @@
           </div>
           <a class="singleProject__liveLink" href="{% url 'gallery' mod.id %}?next={{request.path}}" target="_blank"><i class="im im-external-link"></i>Mod gallery
           </a>
-          {% if mod.download_link %}
-          <a class="singleProject__liveLink" href="{{ mod.download_link }}" target="_blank"><i class="im im-external-link"></i>Download link
+          {% if mod.modfile %}
+          <a class="singleProject__liveLink" href="{% url 'downloadmod' pk=mod.id %}" target="_blank"><i class="im im-external-link"></i>Download
           </a>
           {% endif %}
           <!-- {% if mod.gallery_set.all %}

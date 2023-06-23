@@ -12,4 +12,5 @@ urlpatterns = [
     path('gallery/addimages/<str:pk>', views.addImage, name='add-images'),
     path('update-gallery/<str:pk>', views.editGallery, name='edit-gallery'),
     path('gallery/delete/<str:pk>', views.deleteImg, name='delete-img'),
+    path('mod/download/<str:pk>/', views.download_view, name='downloadmod')
 ]
