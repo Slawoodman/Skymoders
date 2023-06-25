@@ -1,1 +1,34 @@
-env/
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django-related
+*.log
+*.pot
+*.pyc
+
+
+# Environment-specific files
+.env
+.env.*
+.envrc
+*.venv
+.venv/
+pip-selfcheck.json
+
+
+
+
+# Compiled files
+*.pyc
+*.pyo
+*.dll
+*.exe
+*.o
+*.so
+*.dylib
+
+# Other
+.DS_Store
+Thumbs.db
