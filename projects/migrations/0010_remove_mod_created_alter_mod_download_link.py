@@ -5,7 +5,6 @@ import projects.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("projects", "0009_alter_mod_featured_image"),
     ]

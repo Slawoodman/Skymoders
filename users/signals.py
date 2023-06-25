@@ -8,19 +8,16 @@ from django.conf import settings
 from users.views import profile
 from .models import Profile
 
-#@receiver(post_save, sender=Profile)
+
+# @receiver(post_save, sender=Profile)
 def createProfile(sender, instance, created, **kwargs):
     if created:
         user = instance
         profile = Profile.objects.create(
-            user=user,
-            username = user.username,
-            email = user.email,
-            name = user.first_name
-
+            user=user, username=user.username, email=user.email, name=user.first_name
         )
-        subject = f'Hey, ya. Welcome to Skymoders'
-        message = 'We are glade you are here! Give 5-_-'
+        subject = f"Hey, ya. Welcome to Skymoders"
+        message = "We are glade you are here! Give 5-_-"
         send_mail(
             subject,
             message,
@@ -30,7 +27,7 @@ def createProfile(sender, instance, created, **kwargs):
         )
 
 
-def updateUser(sender, instance, created,**kwargs):
+def updateUser(sender, instance, created, **kwargs):
     profile = instance
     user = profile.user
     if created == False:
@@ -40,14 +37,13 @@ def updateUser(sender, instance, created,**kwargs):
         user.save()
 
 
-
 def profileDelet(sender, instance, **kwargs):
     try:
         user = instance.user
         user.delete()
     except:
         pass
-    print('Deleted', (sender, instance))
+    print("Deleted", (sender, instance))
 
 
 post_save.connect(createProfile, sender=User)

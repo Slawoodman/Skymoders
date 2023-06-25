@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("users", "0002_alter_profile_options_alter_profile_created"),
         ("projects", "0003_alter_mod_options_alter_mod_created"),

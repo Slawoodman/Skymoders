@@ -14,21 +14,20 @@ from .models import Mod, Gallery
 from .forms import ModForm, ReviewForm
 
 
+# добавить логи рекваер для скачивания
 def showmods(request):
     data, search_query = utils.modSearch(request)
     mods, custom_range = utils.modPaginate(request, data, 6)
 
-    context = {'mods':mods, 'search_query': search_query,
-             'custom_range': custom_range
-    }
-    return render(request, 'projects/modpage.html', context)
+    context = {"mods": mods, "search_query": search_query, "custom_range": custom_range}
+    return render(request, "projects/modpage.html", context)
 
 
 def currentmod(request, pk):
     data = Mod.objects.get(id=pk)
     print(pk)
     form = ReviewForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ReviewForm(request.POST)
         review = form.save(commit=False)
         review.mod = data
@@ -36,56 +35,55 @@ def currentmod(request, pk):
         review.save()
 
         messages.success(request, "U'r review was successfully submitted")
-        return redirect('modpage', pk=data.id)
-    
+        return redirect("modpage", pk=data.id)
+
     if data.getVoteCount:
         data.getVoteCount
-    context = {'mod': data, 'form':form}
-    return render(request, 'projects/currentmod.html', context)
+    context = {"mod": data, "form": form}
+    return render(request, "projects/currentmod.html", context)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def createMod(request):
     profile = request.user.profile
-    
+
     forms = ModForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         print(request.POST)
         forms = ModForm(request.POST, request.FILES)
         if forms.is_valid():
             mod = forms.save(commit=False)
             mod.owner = profile
             mod.save()
-            return redirect('home')
-    
+            return redirect("home")
 
-             
-    context = {'forms': forms}
-    return render(request, 'projects/form-template.html', context)
+    context = {"forms": forms}
+    return render(request, "projects/form-template.html", context)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def updateMod(request, pk):
     profile = request.user.profile
     mod = profile.mod_set.get(id=pk)
     forms = ModForm(instance=mod)
 
-    if request.method == 'POST':
-        forms = ModForm(request.POST, request.FILES ,instance=mod)
+    if request.method == "POST":
+        forms = ModForm(request.POST, request.FILES, instance=mod)
         if forms.is_valid():
             forms.save()
-            return redirect('user-account')
-             
-    context = {'forms': forms}
-    return render(request, 'projects/form-template.html', context)
+            return redirect("user-account")
+
+    context = {"forms": forms}
+    return render(request, "projects/form-template.html", context)
 
 
+@login_required(login_url="login-user")
 def download_view(request, pk):
     try:
         file_instance = Mod.objects.get(id=pk)
     except Mod.DoesNotExist:
         messages.error(request, "File not found.")
-        return redirect('modpage', pk=file_instance.id)
+        return redirect("modpage", pk=file_instance.id)
 
     file_path = file_instance.modfile.path
     file_name = os.path.basename(file_path)
@@ -94,32 +92,32 @@ def download_view(request, pk):
     # Set the content type based on the file extension
     content_type, _ = mimetypes.guess_type(file_path)
     if content_type is None:
-        content_type = 'application/octet-stream'
+        content_type = "application/octet-stream"
 
     response = HttpResponse(content_type=content_type)
-    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+    response["Content-Disposition"] = f'attachment; filename="{file_name}"'
 
     try:
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             response.write(f.read())
 
         messages.success(request, "File is successful downloaded.")
         return response
-    
+
     except Exception as e:
         messages.error(request, f"File download failed: {str(e)}")
-        return redirect('modpage', pk=file_instance.id)
+        return redirect("modpage", pk=file_instance.id)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def deleteMod(request, pk):
     profile = request.user.profile
     mod = profile.mod_set.get(id=pk)
-    if request.method == 'POST':
+    if request.method == "POST":
         mod.delete()
-        return redirect('user-account')
-    context = {'obj': mod}
-    return render(request, 'delete.html', context)
+        return redirect("user-account")
+    context = {"obj": mod}
+    return render(request, "delete.html", context)
 
 
 def modGallery(request, pk):
@@ -130,46 +128,46 @@ def modGallery(request, pk):
     for image in images:
         if image not in author_images:
             users_images.append(image)
-    context = {'mod':mod, 'images': images,
-      'Author': author_images, 'Users':users_images}
-    return render(request, 'projects/gallery.html', context)
+    context = {
+        "mod": mod,
+        "images": images,
+        "Author": author_images,
+        "Users": users_images,
+    }
+    return render(request, "projects/gallery.html", context)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def addImage(request, pk):
     mod = Mod.objects.get(id=pk)
     print(mod)
-    if request.method == 'POST':
-        images = request.FILES.getlist('images')
+    if request.method == "POST":
+        images = request.FILES.getlist("images")
         for i in images:
             item = Gallery.objects.create(
-                parent = mod,
-                user_owner = request.user.profile,
-                img = i
+                parent=mod, user_owner=request.user.profile, img=i
             )
             item.save()
-        return redirect('edit-gallery', pk=pk)
-    context = {'page':'addimage'}
-    return render(request, 'projects/form-template.html', context)
+        return redirect("edit-gallery", pk=pk)
+    context = {"page": "addimage"}
+    return render(request, "projects/form-template.html", context)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def editGallery(request, pk):
     profile = request.user.profile
     mod = Mod.objects.get(id=pk)
-    images = mod.gallery_set.all().filter(
-        user_owner = profile.id
-    )
-    context = {'page':'page', 'images':images, 'mod':mod}
-    return render(request, 'projects/gallery.html', context)
+    images = mod.gallery_set.all().filter(user_owner=profile.id)
+    context = {"page": "page", "images": images, "mod": mod}
+    return render(request, "projects/gallery.html", context)
 
 
-@login_required(login_url='login-user')
+@login_required(login_url="login-user")
 def deleteImg(request, pk):
     img = Gallery.objects.get(id=pk)
     mod = img.parent.id
-    if request.method == 'POST':
+    if request.method == "POST":
         img.delete()
-        return redirect('edit-gallery', pk=mod)
-    context = {'obj': img}
-    return render(request, 'delete.html', context)
+        return redirect("edit-gallery", pk=mod)
+    context = {"obj": img}
+    return render(request, "delete.html", context)

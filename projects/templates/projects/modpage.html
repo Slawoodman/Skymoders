@@ -29,7 +29,7 @@
         <div class="grid grid--three">
           {% for mod in mods %}
           <div class="column">
-            <div class="card project">
+            <div class="card card--dark" style="width: 320px; margin-right: 2%">
             
               <a href="{% url 'modpage' mod.id %}" class="project">
                 <img class="project__thumbnail" src="{{ mod.getImage }}" alt="project thumbnail" />
@@ -44,7 +44,7 @@
                   </p>
                   <div class="project__tags">
                     {% for tag in mod.tags.all|slice:"3"%}
-                    <span class="tag tag--pill tag--main">
+                    <span class="tag tag--outline tag--pill tag--main">
                       <small>{{ tag }}</small>
                     </span>
                     {% endfor %}

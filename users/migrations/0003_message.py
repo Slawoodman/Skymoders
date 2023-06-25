@@ -6,7 +6,6 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("users", "0002_alter_profile_options_alter_profile_created"),
     ]

@@ -58,7 +58,7 @@
               <div class="devInfo__otherSkills">
                 {% for extra in addskills %}
                 <span class="tag tag--pill tag--sub tag--lg">
-                  <small>{{extra}}</small>
+                  <small><a href="{% url 'show-users' %}?search_query={{extra}}">{{extra}}</a></small>
                 </span>
                 {% endfor %}
               </div>

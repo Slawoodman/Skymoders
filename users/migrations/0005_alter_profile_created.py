@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0004_alter_message_options'),
+        ("users", "0004_alter_message_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='created',
+            model_name="profile",
+            name="created",
             field=models.DateTimeField(auto_now_add=True, null=True),
         ),
     ]

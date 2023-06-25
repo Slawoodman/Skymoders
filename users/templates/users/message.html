@@ -5,7 +5,7 @@
   <main class="messagePage my-xl">
     <div class="content-box">
       <div class="message">
-        <a class="backButton" href="{{request.GET.next}}"><i class="im im-angle-left"></i></a>
+        <a class="backButton" href="{{request.GET.next}}"><</i></a>
         <h2 class="message__subject">{{current_message.subject}}</h4>
           {% if current_message.sender %}
           <a href="{% url 'current-profile' current_message.sender.id %}" class="message__author">{{current_message.sender}}</a>

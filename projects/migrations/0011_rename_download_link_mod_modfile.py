@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("projects", "0010_remove_mod_created_alter_mod_download_link"),
     ]

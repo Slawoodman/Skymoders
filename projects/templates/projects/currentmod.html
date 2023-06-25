@@ -10,19 +10,16 @@
           <div class="singleProject__toolStack">
             {% for tag in mod.tags.all %}
             <span class="tag tag--pill tag--sub tag--lg">
-              <small>{{tag}}</small>
+              <small><a href="/mods/?search_query={{tag}}">{{tag}}</a></small>
             </span>
             {% endfor %}
           </div>
           <a class="singleProject__liveLink" href="{% url 'gallery' mod.id %}?next={{request.path}}" target="_blank"><i class="im im-external-link"></i>Mod gallery
           </a>
           {% if mod.modfile %}
-          <a class="singleProject__liveLink" href="{% url 'downloadmod' pk=mod.id %}" target="_blank"><i class="im im-external-link"></i>Download
+          <a class="singleProject__liveLink" href="{% url 'downloadmod' pk=mod.id %}"><i class="im im-external-link"></i>Download
           </a>
           {% endif %}
-          <!-- {% if mod.gallery_set.all %}
-          
-          {% endif %} -->
         </div>
         <div class="column column--2of3">
           <img class="singleProject__preview" src="{{ mod.getImage }}" alt="portfolio thumbnail" />
