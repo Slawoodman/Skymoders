@@ -1,8 +1,8 @@
-import re
 from django.db import models
 import uuid
 from users.models import Profile
 from django.core.exceptions import ValidationError
+from ckeditor.fields import RichTextField
 
 
 def validation_file(value):
@@ -13,7 +13,7 @@ def validation_file(value):
 class Mod(models.Model):
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    description = models.TextField(null=True, blank=True)
+    description = RichTextField()
     featured_image = models.ImageField(
         null=True, blank=True, upload_to="modtitle/", default="default.png"
     )
