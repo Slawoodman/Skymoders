@@ -81,8 +81,11 @@
                 <a href="{% url 'modpage' mod.id %}"><img src="{{mod.getImage}}" alt="Mod Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="{% url 'modpage' mod.id %}">{{mod.title}}</a>
-                <p>{{mod.description|slice:'150'}}</p>
+                <a href="{% url 'modpage' mod.id %}">{{ mod.title }}</a>
+                <p>
+                  {{ mod.description|slice:'150'|safe }}
+                  {% if mod.description|length > 150 %}...{% endif %}
+                </p>
               </td>
               <td class="settings__tableActions">
                 <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-mod' mod.id %}?next=/account/"><i class="im im-edit"></i> Edit</a>
