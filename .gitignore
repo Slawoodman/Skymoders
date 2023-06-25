@@ -1,5 +1,5 @@
 # Byte-compiled / optimized Python files
-__pycache__/
+**/__pycache__
 *.py[cod]
 *$py.class
 
@@ -10,7 +10,7 @@ __pycache__/
 
 
 # Environment-specific files
-.env
+env
 .env.*
 .envrc
 *.venv
