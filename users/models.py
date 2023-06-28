@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from ckeditor.fields import RichTextField
 
 
 class Profile(models.Model):
@@ -12,7 +13,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=500, blank=True, null=True)
     region = models.CharField(max_length=200, blank=True, null=True)
     short_intro = models.CharField(max_length=200, blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
+    bio = RichTextField(config_name='simple_toolbar')
     profile_image = models.ImageField(
         null=True,
         blank=True,
