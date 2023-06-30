@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "rest_framework",
     "corsheaders",
-    "ckeditor"
+    "ckeditor",
+    'ckeditor_uploader'
 ]
 
 
@@ -76,11 +77,19 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
+CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
+
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'height': 400,
         'width': 700,
+        'extraPlugins': ','.join(
+            [
+                'html5video',
+                'youtube'
+            ]
+        )
     },
     'simple_toolbar': {
         'toolbar': 'Custom',
@@ -89,7 +98,7 @@ CKEDITOR_CONFIGS = {
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Link', 'Unlink'],
             ['RemoveFormat', 'Source']
-        ]
+        ],
     }
 }
 

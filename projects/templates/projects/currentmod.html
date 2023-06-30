@@ -26,6 +26,8 @@
           <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer">{{ mod.owner }}</a>
           <h2 class="singleProject__title">{{mod.title}}</h2>
           {% if mod.description %}
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae dolores delectus explicabo cum, sit, quaerat neque blanditiis doloribus eum nesciunt magni non nobis laboriosam. Sapiente alias ullam est a ipsam.</p>
+            <br>
             <h3 class="singleProject__subtitle">About the Mod</h3>
             <div class="singleProject__info">
               {{mod.description| safe}}

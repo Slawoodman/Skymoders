@@ -2,9 +2,11 @@ from dataclasses import field, fields
 from django.forms import ModelForm, widgets
 from django import forms
 from .models import Mod, Review
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class ModForm(ModelForm):
+    description = forms.CharField(widget=CKEditorUploadingWidget(config_name='default'))
     class Meta:
         model = Mod
         fields = ["title", "featured_image", "description", "modfile", "tags"]

@@ -22,22 +22,22 @@ def loginUser(request):
 
         try:
             user = User.objects.get(username=username)
-        except:
+        except User.DoesNotExist:
             messages.error(request, "Username does not exist")
+            return redirect("login-user")
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            if "download" in request.GET["next"]:
-                resolver_match = resolve(request.GET["next"])
+            next_url = request.GET.get("next")
+            if next_url and "download" in next_url:
+                resolver_match = resolve(next_url)
                 return redirect("modpage", pk=resolver_match.kwargs["pk"])
-            return redirect(
-                request.GET["next"] if "next" in request.GET else "user-account"
-            )
+            return redirect(next_url or "user-account")
 
         else:
-            messages.error(request, "Username OR password is incorrect")
+            messages.error(request, "Username or password is incorrect")
     context = {"page": page}
     return render(request, "users/login_register.html", context)
 
