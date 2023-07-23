@@ -23,7 +23,7 @@
         </div>
         <div class="column column--2of3">
           <img class="singleProject__preview" src="{{ mod.getImage }}" alt="portfolio thumbnail" />
-          <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer">{{ mod.owner }}</a>
+          <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer">{{ mod.owner }} <p>views count size of file</p></a>
           <h2 class="singleProject__title">{{mod.title}}</h2>
           {% if mod.description %}
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae dolores delectus explicabo cum, sit, quaerat neque blanditiis doloribus eum nesciunt magni non nobis laboriosam. Sapiente alias ullam est a ipsam.</p>

@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="{% static 'styles/request.css' %}">
+</head>
+
+<body>
+	
+	<section class="hero-section text-center">
+		<div class="container container--narrow">
+		  <div class="hero-section__box">
+			<h2>FRIEND <span>REQUESTS</span></h2>
+			<h2>FROM AROUND THE WORLD</h2>
+		  </div>
+  
+		  <div class="hero-section__search">
+			<form class="form" action="" method="get">
+			  <div class="form__field">
+				<label for="formInput#search">Search Moders </label>
+				<input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}" placeholder="Search for request by moder name">
+			  </div>
+  
+			  <input class="btn btn--sub btn--lg" type="submit" value="Search">
+			</form>
+		  </div>
+		</div>
+	</section>
+	<div class="friend-requests">
+		{% if friend_requests %}
+			{% for request in friend_requests %}
+  			<div class="friend-box">
+    			<div class="friend-profile" style="background-image: url('{{request.sender.profile.get_profile_img}}');"></div>
+				<div class="name-box"><a href="{% url 'friends:friendlist' pk=request.sender.profile.id %}" style="color: var(--color-sub-light);">{{request.sender}}</a>
+				</div>
+				<div class="user-name-box">@{{request.sender.username}} sent you a friend request.
+				</div>
+    		<div class="request-btn-row">
+				<a class="friend-request accept-request" href="{% url 'friends:accept-friend' pk=request.id %}">Accept</a>
+      			<a class="friend-request decline-request" href="{% url 'friends:accept-friend' pk=request.id %}">Decline</a>
+    		</div>
+  			</div>
+			{% endfor %}
+  		{% elif  not friend_requests and not search_query %}
+  			<h2>No friend requests</h2>
+  		{% else %}
+			<h2>No results found</h2>
+  		{% endif %}
+  	{% include 'pagination.html' with queryset=friend_requests custom_range=custom_range %}
+	</div>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,135 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="{% static 'styles/request.css' %}">
+  <script src="https://kit.fontawesome.com/95f8f67f8f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<section class="hero-section text-center">
+    <div class="container container--narrow">
+      <div class="hero-section__box">
+        <h2>U'r skymoder <span>Friends</span></h2>
+        <h2>FROM AROUND THE WORLD</h2>
+      </div>
+
+      <div class="hero-section__search">
+        <form class="form" action="" method="get">
+          <div class="form__field">
+            <label for="formInput#search">Search Moders </label>
+            <input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}" placeholder="Search for friends"> 
+          </div>
+
+          <input class="btn btn--sub btn--lg" type="submit" value="Search">
+        </form>
+      </div>
+    </div>
+</section>
+<div class="friend-requests">
+    
+    {% if is_self and search_query %}
+      <h1>My friends and users</h1>
+    {% elif is_self %}
+      <h1>My friends</h1>
+    {% elif not is_sef and search_query %}
+      <h1>{{moder.username}} friends and users</h1>
+    {% else %}
+      <h1>{{moder.username}} friends</h1>
+    {% endif %}
+
+    {% if friends %}
+        {% for friend in friends %}
+          <div class="friend-box">
+            {% if search_query %}
+            <div class="friend-profile" style="background-image: url('{{friend.user.profile.get_profile_img}}');"></div>
+            <div class="name-box"><a href="{% url 'friends:friendlist' pk=friend.user.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
+            </div>
+            <div class="user-name-box">@{{friend.username}} sent you a friend requests.
+            </div>
+            <div class="request-btn-row">
+              {% if friend.user == request.user %}
+                  {# The user is viewing their own profile #}
+                  <a class="friend-request friends" href="" style="font-size: 12px;">
+                    friends <i class="fa-solid fa-handshake" style="color: cornflowerblue;"></i>
+                </a>
+              {% elif friend.user in friend_for_user %}
+                  {# The user is viewing a friend's profile #}
+                  <a href="{% url 'send-message' pk=friend.user.profile.id %}" style="color: var(--color-light-gray)">Send message</a>
+                  <a class="friend-request friends" href=""  style="font-size: 12px;">
+                      friends <i class="fa-solid fa-handshake" style="color: cornflowerblue; "></i>
+                  </a>
+              {% elif friend.user  not in friend_for_user  %}
+                  {# The user is viewing a non-friend's profile #}
+                  {% for req in friend_request %}
+                    {% if friend.user == req.receiver  and request.user == req.sender and req.is_active %}
+                      <a style="margin: 5px; color: var(--color-light-gray)">Cancel request
+                        <a href="{% url 'friends:cancel_friend' pk=friend.user.profile.id %}"><i class="fa-solid fa-user-xmark" style="color: cornflowerblue;"></i></a>
+                        </a>
+                    {% elif friend.user == req.sender %}
+                      <a href="{% url 'friends:accept-friend' pk=req.id %}" style="margin: 10px; color: cornflowerblue;"> <i class='fas fa-user-check'></i></a>
+                      <a href="{% url 'friends:decline-friend' pk=req.id %}" style="margin: 10px; color: cornflowerblue;"><i class='fas fa-user-minus'></i></a>
+                      
+
+                    {% endif %}
+                    
+                  {% endfor %}
+                  <a class="friend-request friends" style="font-size: 12px;" href="{% url 'friends:send_request' pk=friend.user.profile.id %}">
+                    Add friend <i class="fa-solid fa-user-plus" style="color: cornflowerblue;"></i>
+                  </a>
+              {% endif %}
+          </div>
+            {% else %}
+            <div class="friend-profile" style="background-image: url('{{friend.profile.get_profile_img}}');"></div>
+            <div class="name-box"><a href="{% url 'friends:friendlist' pk=friend.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
+            </div>
+            <div class="user-name-box">@{{friend.username}} sent you a friend request.
+            </div>
+            <div class="request-btn-row">
+              {% if friend == request.user %}
+                  {# The user is viewing their own profile #}
+                  <a class="friend-request friends" href="" style="font-size: 12px;">
+                    friends <i class="fa-solid fa-handshake" style="color: cornflowerblue;"></i>
+                </a>
+              {% elif friend in friend_for_user %}
+                  {# The user is viewing a friend's profile #}
+                  <a href="{% url 'send-message' pk=friend.profile.id %}" style="color: var(--color-light-gray)">Send message</a>
+                  <a class="friend-request friends" href=""  style="font-size: 12px;">
+                      friends <i class="fa-solid fa-handshake" style="color: cornflowerblue; "></i>
+                  </a>
+              {% elif friend  not in friend_for_user  %}
+                  {# The user is viewing a non-friend's profile #}
+
+                  {% for req in friend_request %}
+                  {% if friend == req.receiver  and request.user == req.sender and req.is_active %}
+                    <a style="margin: 5px; color: var(--color-light-gray)">Cancel request
+                      <a href="{% url 'friends:cancel_friend' pk=friend.profile.id %}"><i class="fa-solid fa-user-xmark" style="color: cornflowerblue;"></i></a>
+                      </a>
+                  {% elif friend == req.sender %}
+                    <a href="{% url 'friends:accept-friend' pk=req.id %}" style="margin: 10px; color: cornflowerblue;"> <i class='fas fa-user-check'></i></a>
+                    <a href="{% url 'friends:decline-friend' pk=req.id %}" style="margin: 10px; color: cornflowerblue;"><i class='fas fa-user-minus'></i></a>
+                    
+
+                  {% endif %}
+                  
+                  {% endfor %}
+                <a class="friend-request friends" style="font-size: 12px;" href="{% url 'friends:send_request' pk=friend.profile.id %}">
+                  Add friend <i class="fa-solid fa-user-plus" style="color: cornflowerblue;"></i>
+                </a>
+
+              {% endif %}
+          </div>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% elif  not friend_requests and not search_query %}
+          <h2>No friend requests</h2>
+      {% else %}
+        <h2>No results found</h2>
+      {% endif %}
+  {% include 'pagination.html' with queryset=friends custom_range=custom_range %}
+</div>
+</body>
+{% endblock %}

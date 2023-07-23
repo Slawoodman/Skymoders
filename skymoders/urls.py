@@ -9,9 +9,10 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("mods/", include("projects.urls")),
     path("", include("users.urls")),
+    path("mods/", include("projects.urls")),
     path("api/", include("api.urls")),
+    path("friends/", include("friends.urls", namespace="friends")),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path(
         "reset-password/",
