@@ -14,6 +14,7 @@ class Mod(models.Model):
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = RichTextField()
+    short_intro = models.TextField(max_length=200, blank=False, null=False)
     featured_image = models.ImageField(
         null=True, blank=True, upload_to="modtitle/", default="default.png"
     )
