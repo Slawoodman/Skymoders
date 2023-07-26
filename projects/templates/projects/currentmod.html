@@ -1,5 +1,32 @@
 {% extends 'main.html' %}
 {% block content %}
+<style>
+  table {
+    width: 300px;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #333;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .eye-icon, .file-icon {
+    font-size: 18px;
+    margin-right: 5px;
+  }
+</style>
 <body>
   <!-- Main Section -->
   <main class="singleProject my-md">
@@ -23,6 +50,20 @@
         </div>
         <div class="column column--2of3">
           <img class="singleProject__preview" src="{{ mod.getImage }}" alt="portfolio thumbnail" />
+          <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer"> Uploaded by {{ mod.owner }} 
+            </a>
+          <br>
+          <table style="color: var(--color-light-gray);">
+            <tr>
+              <td >Total views</td>
+              <td style="padding: 5px;">File size</td>
+            </tr>
+            <tr>
+              <td><i class="fa-solid fa-eye"></i> {{mod.view_count}} </td>
+              <td style="padding: 5px;"><i class="fa-solid fa-file"></i> {{size}} </td>
+            </tr>
+          </table>
+          
           <a href="{% url 'current-profile' mod.owner.id %}" class="singleProject__developer">{{ mod.owner }}</a>
           <a></a>
           <h2 class="singleProject__title">{{mod.title}}</h2>

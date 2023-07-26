@@ -6,7 +6,8 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class ModForm(ModelForm):
-    description = forms.CharField(widget=CKEditorUploadingWidget(config_name='default'))
+    description = forms.CharField(widget=CKEditorUploadingWidget(config_name="default"))
+
     class Meta:
         model = Mod
         fields = ["title", "featured_image", "short_intro", "description", "modfile", "tags"]

@@ -1,6 +1,7 @@
 import users
 import os
 import mimetypes
+import pathlib
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -14,7 +15,14 @@ from .models import Mod, Gallery
 from .forms import ModForm, ReviewForm
 
 
-# добавить логи рекваер для скачивания
+def convert_bytes(size):
+    """Convert bytes to KB, or MB or GB"""
+    for x in ["bytes", "KB", "MB", "GB", "TB"]:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
+
+
 def showmods(request):
     data, search_query = utils.modSearch(request)
     mods, custom_range = utils.modPaginate(request, data, 6)
@@ -26,6 +34,8 @@ def showmods(request):
 def currentmod(request, pk):
     data = Mod.objects.get(id=pk)
     print(pk)
+    data.view_count += 1
+    data.save()
     form = ReviewForm()
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -33,13 +43,23 @@ def currentmod(request, pk):
         review.mod = data
         review.owner = request.user.profile
         review.save()
-
         messages.success(request, "U'r review was successfully submitted")
         return redirect("modpage", pk=data.id)
+    
+    file_path = data.modfile.path
+    try:
+        os.path.exists(file_path)
+        f_size = os.path.getsize(file_path)
+        size = convert_bytes(f_size)
+    except:
+        size = '0.0 bytes'
 
+            
+    
     if data.getVoteCount:
         data.getVoteCount
-    context = {"mod": data, "form": form}
+    
+    context = {"mod": data, "form": form, "size": size}
     return render(request, "projects/currentmod.html", context)
 
 

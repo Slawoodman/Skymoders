@@ -14,11 +14,12 @@ class Mod(models.Model):
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = RichTextField()
-    short_intro = models.TextField(max_length=150, blank=False, null=False)
+    short_intro = models.TextField(max_length=200, blank=False, null=False)
     featured_image = models.ImageField(
         null=True, blank=True, upload_to="modtitle/", default="default.png"
     )
     modfile = models.FileField(upload_to="files/", validators=[validation_file])
+    view_count = models.IntegerField(default=0)
     tags = models.ManyToManyField("Tag", blank=True)
     vote_total = models.IntegerField(null=True, default=0, blank=True)
     vote_ration = models.IntegerField(null=True, default=0, blank=True)

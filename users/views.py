@@ -8,6 +8,9 @@ from .forms import CustomUserCreationForm, ProfileForm, SkillForm, MessageForm
 from django.contrib import messages
 from . import utils
 from .models import Profile, Skill, Message
+from friends.models import FriendList, FriendRequest
+from friends.utils import get_frine_requet_or_false
+from friends.fin_re import FriendRequestStatus
 
 
 def loginUser(request):
@@ -82,12 +85,73 @@ def showprofiles(request):
     return render(request, "users/profiles.html", context)
 
 
+@login_required(login_url="login-user")
 def profile(request, pk):
+    context = {}
     moder = Profile.objects.get(id=pk)
     specSkill = moder.skill_set.exclude(description__exact="")
     addSkill = moder.skill_set.filter(description="")
-    print(addSkill, specSkill)
-    context = {"moder": moder, "specSkill": specSkill, "addskills": addSkill}
+    context["addskills"] = addSkill
+    context["moder"] = moder
+    context["moder_id"] = moder.id
+    context["specSkill"] = specSkill
+
+    try:
+        fiendListr = FriendList.objects.get(user=request.user)
+    except:
+        fiendListr = FriendList(user=request.user)
+        fiendListr.save()
+
+    friends = fiendListr.friends.all()
+    # print(friends)
+    is_self = True
+    is_friend = False
+    request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+    friend_requests = None
+    user = request.user
+
+    fried = FriendList.objects.get(user=moder.user).friends.all()
+    print(len(FriendList.objects.get(user=moder.user).friends.all()))
+
+    context["acc_friends"] = len(fried)
+    context["friends"] = friends
+
+    if user.is_authenticated and user != moder.user:
+
+        is_self = False
+        if friends.filter(pk=moder.user.id):
+            # print(f"{request.user} friend with {friends.get(pk=moder.user.id)}")
+            is_friend = True
+        else:
+            if get_frine_requet_or_false(sender=moder.user, receiver=user) != False:
+                request_sent = FriendRequestStatus.THEM_SENT_TO_YOU.value
+            elif get_frine_requet_or_false(sender=user, receiver=moder.user) != False:
+                request_sent = FriendRequestStatus.YOU_SENT_TO_THEM.value
+            else:
+                request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+
+    elif not user.is_authenticated:
+        is_self = False
+
+    else:
+        try:
+            friend_requests = FriendRequest.objects.filter(
+                receiver=moder.user, is_active=True
+            )
+        except:
+            pass
+    context["is_friend"] = is_friend
+    context["is_self"] = is_self
+    context["friend_requests"] = friend_requests
+    context["request_sent"] = request_sent
+    try:
+        rqst = FriendRequest.objects.get(
+            sender=moder.user, receiver=user, is_active=True
+        )
+        context["request_id"] = rqst.id
+    except:
+        pass
+    print(context)
     return render(request, "users/profile.html", context)
 
 
