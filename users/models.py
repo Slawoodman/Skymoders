@@ -13,7 +13,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=500, blank=True, null=True)
     region = models.CharField(max_length=200, blank=True, null=True)
     short_intro = models.CharField(max_length=200, blank=True, null=True)
-    bio = RichTextField(config_name='simple_toolbar')
+    bio = RichTextField(config_name="simple_toolbar")
     profile_image = models.ImageField(
         null=True,
         blank=True,

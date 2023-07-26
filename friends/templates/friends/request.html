@@ -35,7 +35,7 @@
 			{% for request in friend_requests %}
   			<div class="friend-box">
     			<div class="friend-profile" style="background-image: url('{{request.sender.profile.get_profile_img}}');"></div>
-				<div class="name-box"><a href="{% url 'friends:friendlist' pk=request.sender.profile.id %}" style="color: var(--color-sub-light);">{{request.sender}}</a>
+				<div class="name-box"><a href="{% url 'current-profile' pk=request.sender.profile.id %}" style="color: var(--color-sub-light);">{{request.sender}}</a>
 				</div>
 				<div class="user-name-box">@{{request.sender.username}} sent you a friend request.
 				</div>
@@ -58,9 +58,4 @@
 
 </body>
 </html>
-
-
-
-
-
 {% endblock content %}

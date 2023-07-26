@@ -29,7 +29,7 @@
           {% for profile in moders %}
           <div class="card card--dark" style="width: 320px; margin-right: 2%">
             <div class="dev">
-              <a href="{% url 'friends:friendlist' profile.id %}" class="card__body">
+              <a href="{% url 'current-profile' profile.id %}" class="card__body">
                 <div class="dev__profile">
                   <img class="avatar avatar--md" src="{{ profile.get_profile_img }}" alt="image" />
                   <div class="dev__meta">

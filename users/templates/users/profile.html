@@ -1,7 +1,10 @@
 {% extends 'main.html' %}
+
 {% block content %}
-<!-- Main Section -->
-  <main class="profile my-md">
+<head>
+    <script src="https://kit.fontawesome.com/95f8f67f8f.js" crossorigin="anonymous"></script>
+</head>
+<main class="profile my-md">
     <div class="container">
       <div class="layout">
         <div class="column column--1of3">
@@ -11,31 +14,55 @@
               <h2 class="dev__name">{{moder.name }}</h2>
               <p class="dev__title">{{moder.short_intro}}</p>
               <p class="dev__location">Region {{moder.region}}</p>
-              <ul class="dev__social">
-                {% if moder.social_patreon %}
-                <li>
-                  <a title="Github" href="{{moder.social_patreon}}" target="_blank"><i class="im im-github"></i></a>
+              
+              {% if is_friend %}
+                <a href="" class="btn btn--sub  btn--lg">Send Message </a>
+              {% elif is_friend == False and is_self %}
+                <a href="{% url 'friends:show_requests' %}" class="btn btn--main  btn--sub">Friend requests {{friend_requests | length}} </a>
+              {%endif%}
+
+              {% if request_sent == 0 %}
+              <ul class="dev__social" style="background-color: white; border-radius: 10px; border-color: var(--color-main);">
+                <li >
+                    <a>
+                        <a style="color: var(--color-text);" class="">
+                            Accept Friend Request
+                        </a>
+                        <a style="margin-left: 10px;" href="{% url 'friends:accept-friend' pk=request_id %}"><i class='fas fa-user-check'></i></a>
+                        <a style="margin-left: 10px;" href="{% url 'friends:decline-friend' pk=request_id %}"><i class='fas fa-user-minus'></i></a>
+                    </a>
                 </li>
-                {% endif %}
-                {% if moder.social_twitch %}
-                <li>
-                  <a title="Twitter" href="{{moder.social_twitch}}" target="_blank"><i class="im im-twitter"></i></a>
-                </li>
-                {% endif %}
-                {% if moder.social_linkedin %}
-                <li>
-                  <a title="LinkedIn" href="{{moder.social_linkedin}}" target="_blank"><i class="im im-linkedin"></i></a>
-                </li>
-                {% endif %}
-                {% if moder.social_website %}
-                <li>
-                  <a title="Personal Website" href="{{moder.social_website}}" target="_blank"><i class="im im-globe"></i></a>
-                </li>
-                {% endif %}
+
               </ul>
-              {% if  request.user.is_authenticated and request.user.profile.id != moder.id %}
-              <a href="{% url 'send-message'  moder.id %}" class="btn btn--sub btn--lg">Send Message </a>
+              {% elif is_friend == False and is_self == False %}
+                {% if request_sent == 1 %}
+                  <a href="{% url 'friends:cancel_friend' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px; color: black;">Cancel friend request</a>
+                {% endif %}
+                {% if request_sent == -1 %}
+                  <a href="{% url 'friends:send_request' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px;">Send friend request</a>
+                {% endif %}
               {% endif %}
+
+              <ul class="dev__social">
+                {% if acc_friends == 1%}
+                <li>
+                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}"><i class='fas fa-user-friends'></i> {{ acc_friends }} friend </a></i>
+                </li>
+                {% elif acc_friends > 1 %}
+                <li>
+                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}"><i class='fas fa-user-friends'></i> {{ acc_friends }} friends </a></i>
+                </li>
+                {% else %}
+                <li>
+                    <a><i class='fas fa-user-friends'></i> {{ acc_friends }} friends </a></i>
+                </li>
+                {% endif %}
+                {% if is_friend %}
+                  <a href="{% url 'friends:unfriend' pk=moder.id %}">Remove <i class="fa-solid fa-user-minus"></i></a>
+                {% endif %}
+                
+              </ul>
+             
             </div>
           </div>
         </div>
@@ -98,5 +125,5 @@
         </div>
       </div>
     </div>
-  </main>
+</main>
 {% endblock %}

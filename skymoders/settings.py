@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "ckeditor",
-    'ckeditor_uploader'
+    "ckeditor_uploader",
 ]
 
 
@@ -78,29 +78,35 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
-CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
+CKEDITOR_UPLOAD_PATH = "content/ckeditor/"
 
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'full',
-        'height': 400,
-        'width': 700,
-        'extraPlugins': ','.join(
-            [
-                'html5video',
-                'youtube'
-            ]
-        )
+    "default": {
+        "toolbar": "full",
+        "height": 400,
+        "width": 700,
+        "extraPlugins": ",".join(["html5video", "youtube"]),
     },
-    'simple_toolbar': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
+    "simple_toolbar": {
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            ["Link", "Unlink"],
+            ["RemoveFormat", "Source"],
         ],
-    }
+    },
 }
 
 MIDDLEWARE = [

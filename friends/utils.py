@@ -4,9 +4,12 @@ from .models import FriendRequest, FriendList
 from users.models import Profile
 from itertools import chain
 
+
 def get_frine_requet_or_false(sender, receiver):
     try:
-        return FriendRequest.objects.get(sender=sender, receiver=receiver, is_active=True)
+        return FriendRequest.objects.get(
+            sender=sender, receiver=receiver, is_active=True
+        )
     except:
         return False
 
@@ -54,22 +57,20 @@ def profilesearch(request, flag=False, user_id=None):
             user_friends = FriendList.objects.get(user=request.user).friends.all()
         if search_query:
             friends = Profile.objects.distinct().filter(
-                Q(username__icontains=search_query)|
-                Q(email__icontains=search_query)|
-                Q(short_intro__icontains=search_query)
+                Q(username__icontains=search_query)
+                | Q(email__icontains=search_query)
+                | Q(short_intro__icontains=search_query)
             )
         requests = FriendRequest.objects.filter(receiver=request.user, is_active=True)
-        sent_requests = FriendRequest.objects.filter(sender=request.user, is_active=True)
+        sent_requests = FriendRequest.objects.filter(
+            sender=request.user, is_active=True
+        )
         requests = list(chain(requests, sent_requests))
         print(requests)
         return friends, user_friends, search_query, is_self, requests
 
-
-
     requests = FriendRequest.objects.filter(receiver=request.user, is_active=True)
-    requests = requests.distinct().filter( 
-        Q(sender__username__icontains=search_query)
-    )
+    requests = requests.distinct().filter(Q(sender__username__icontains=search_query))
     print(requests)
     if not search_query:
         res = []
@@ -78,6 +79,3 @@ def profilesearch(request, flag=False, user_id=None):
         return res, search_query
 
     return requests, search_query
-
-
-    

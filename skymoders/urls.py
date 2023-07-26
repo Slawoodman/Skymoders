@@ -13,7 +13,7 @@ urlpatterns = [
     path("mods/", include("projects.urls")),
     path("api/", include("api.urls")),
     path("friends/", include("friends.urls", namespace="friends")),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
     path(
         "reset-password/",
         auth_views.PasswordResetView.as_view(template_name="forget_password.html"),

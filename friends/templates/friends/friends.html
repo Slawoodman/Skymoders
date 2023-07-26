@@ -45,7 +45,7 @@
           <div class="friend-box">
             {% if search_query %}
             <div class="friend-profile" style="background-image: url('{{friend.user.profile.get_profile_img}}');"></div>
-            <div class="name-box"><a href="{% url 'friends:friendlist' pk=friend.user.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
+            <div class="name-box"><a href="{% url 'current-profile' pk=friend.user.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
             </div>
             <div class="user-name-box">@{{friend.username}} sent you a friend requests.
             </div>
@@ -83,7 +83,7 @@
           </div>
             {% else %}
             <div class="friend-profile" style="background-image: url('{{friend.profile.get_profile_img}}');"></div>
-            <div class="name-box"><a href="{% url 'friends:friendlist' pk=friend.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
+            <div class="name-box"><a href="{% url 'current-profile' pk=friend.profile.id %}" style="color: var(--color-sub-light);">{{friend.username}}</a>
             </div>
             <div class="user-name-box">@{{friend.username}} sent you a friend request.
             </div>
