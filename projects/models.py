@@ -18,7 +18,7 @@ class Mod(models.Model):
         null=True, blank=True, upload_to="modtitle/", default="default.png"
     )
     modfile = models.FileField(upload_to="files/", validators=[validation_file])
-    view_count = models.PositiveIntegerField(default=0)
+    view_count = models.IntegerField(default=0)
     tags = models.ManyToManyField("Tag", blank=True)
     vote_total = models.IntegerField(null=True, default=0, blank=True)
     vote_ration = models.IntegerField(null=True, default=0, blank=True)
