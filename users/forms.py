@@ -28,6 +28,7 @@ class ProfileForm(ModelForm):
             "username",
             "region",
             "short_intro",
+            "short_bio",
             "bio",
             "profile_image",
             "social_patreon",

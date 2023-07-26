@@ -10,7 +10,7 @@ class ModForm(ModelForm):
 
     class Meta:
         model = Mod
-        fields = ["title", "featured_image", "description", "modfile", "tags"]
+        fields = ["title", "featured_image", "short_intro", "description", "modfile", "tags"]
         widgets = {
             "tags": forms.CheckboxSelectMultiple(),
         }

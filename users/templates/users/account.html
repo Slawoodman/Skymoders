@@ -83,8 +83,8 @@
               <td class="settings__tableInfo">
                 <a href="{% url 'modpage' mod.id %}">{{ mod.title }}</a>
                 <p>
-                  {{ mod.description|slice:'150'|safe }}
-                  {% if mod.description|length > 150 %}...{% endif %}
+                  {{ mod.short_intro|slice:'150'|safe }}
+                  {% if mod.short_intro|length > 150 %}...{% endif %}
                 </p>
               </td>
               <td class="settings__tableActions">
