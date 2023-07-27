@@ -15,11 +15,15 @@ class Mod(models.Model):
     title = models.CharField(max_length=200)
     description = RichTextField()
     short_intro = models.TextField(max_length=200, blank=False, null=False)
+    version = models.CharField(max_length=10, blank=False, null=False)
     featured_image = models.ImageField(
         null=True, blank=True, upload_to="modtitle/", default="default.png"
     )
     modfile = models.FileField(upload_to="files/", validators=[validation_file])
     view_count = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
     tags = models.ManyToManyField("Tag", blank=True)
     vote_total = models.IntegerField(null=True, default=0, blank=True)
     vote_ration = models.IntegerField(null=True, default=0, blank=True)

@@ -29,14 +29,14 @@
                             Accept Friend Request
                         </a>
                         <a style="margin-left: 10px;" href="{% url 'friends:accept-friend' pk=request_id %}"><i class='fas fa-user-check'></i></a>
-                        <a style="margin-left: 10px;" href="{% url 'friends:decline-friend' pk=request_id %}"><i class='fas fa-user-minus'></i></a>
+                        <a style="margin-left: 10px;" href="{% url 'friends:decline-friend' pk=request_id %}?next={% url 'current-profile' pk=moder.id %}"><i class='fas fa-user-minus'></i></a>
                     </a>
                 </li>
 
               </ul>
               {% elif is_friend == False and is_self == False %}
                 {% if request_sent == 1 %}
-                  <a href="{% url 'friends:cancel_friend' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px; color: black;">Cancel friend request</a>
+                  <a href="{% url 'friends:cancel_friend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px; color: black;">Cancel friend request</a>
                 {% endif %}
                 {% if request_sent == -1 %}
                   <a href="{% url 'friends:send_request' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px;">Send friend request</a>
@@ -58,7 +58,7 @@
                 </li>
                 {% endif %}
                 {% if is_friend %}
-                  <a href="{% url 'friends:unfriend' pk=moder.id %}">Remove <i class="fa-solid fa-user-minus"></i></a>
+                  <a href="{% url 'friends:unfriend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}">Remove <i class="fa-solid fa-user-minus"></i></a>
                 {% endif %}
                 
               </ul>

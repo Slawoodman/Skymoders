@@ -41,7 +41,7 @@
 				</div>
     		<div class="request-btn-row">
 				<a class="friend-request accept-request" href="{% url 'friends:accept-friend' pk=request.id %}">Accept</a>
-      			<a class="friend-request decline-request" href="{% url 'friends:accept-friend' pk=request.id %}">Decline</a>
+      			<a class="friend-request decline-request" href="{% url 'friends:decline-friend' pk=request.id %}?next={% url 'friends:show_requests'%}">Decline</a>
     		</div>
   			</div>
 			{% endfor %}

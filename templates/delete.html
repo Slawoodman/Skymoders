@@ -4,18 +4,32 @@
     <main class="formPage my-xl">
         <div class="content-box">
             <div class="formWrapper">
-                <a class="backButton" href="{{request.GET.next}}"><i class="im im-angle-left"></i></a>
+                <a class="backButton" href="{{request.GET.next}}"><</i></a>
                 <br>
 
                 <form class="form" method="POST">
                     {% csrf_token %}
-                    {% if page %}
-                    <p>{{obj}} are you sure you want to delete u'r account?</p>
+                    {% if page == 'delacc' %}
+                        <p>{{obj|title}} are you sure you want to delete u'r account?</p>
+                    {% elif page == 'unfriend' %}
+                        <p>{{request.user|title}} are you sure you want to unfriend {{obj|title}}?</p>
+                    {% elif page == 'decline' %}
+                        <p> {{request.user|title}} are you sure you want to decline friend request from {{obj|title}}?</p>
+                    {% elif page == 'cancel' %}
+                        <p> {{request.user|title}} are you sure you want to  cancel friend request to {{obj|title}}?</p>
                     {% else %}
-                    <p>Are your sure you want to delete this "{{obj}}"?</p>
+                        <p>Are your sure you want to delete this "{{obj}}"?</p>
                     {% endif %}
                     <a class="btn btn--sub btn--lg  my-md" href="{{request.GET.next}}"> Go Back</a>
-                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Delete" />
+                    {% if page == 'decline'%}
+                        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Decline" />
+                    {% elif page == 'unfriend' %}
+                        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Unfriend" />
+                    {% elif page == 'cancel'%}
+                        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Cancel" />
+                    {% else %}
+                        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Delete" />
+                    {%endif%}
                 </form>
             </div>
         </div>
