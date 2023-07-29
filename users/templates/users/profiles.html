@@ -1,64 +1,66 @@
 {% extends 'main.html' %}
-{% block content %}
-  <!-- Main Section -->
-  <main class="home">
-    <section class="hero-section text-center">
-      <div class="container container--narrow">
-        <div class="hero-section__box">
-          <h2>CONNECT WITH <span>MODERS</span></h2>
-          <h2>FROM AROUND THE WORLD</h2>
-        </div>
 
-        <div class="hero-section__search">
-          <form class="form" action="{% url 'show-users' %}" method="get">
-            <div class="form__field">
-              <label for="formInput#search">Search Moders </label>
-              <input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}"
-                placeholder="Search by moder name" />
+{% block content %}
+
+<!-- Main Section -->
+<main class="home">
+    <section class="hero-section text-center">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>CONNECT WITH <span>DEVELOPERS</span></h2>
+                <h2>FROM AROUND THE WORLD</h2>
             </div>
 
-            <input class="btn btn--sub btn--lg" type="submit" value="Search" />
-          </form>
+            <div class="hero-section__search">
+
+                <form id="searchForm" class="form" action="{% url 'show-users' %}" method="get">
+                    <div class="form__field">
+                        <label for="formInput#search">Search Developers </label>
+                        <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                            value="{{search_query}}" placeholder="Search by developer name" />
+                    </div>
+
+                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                </form>
+
+            </div>
         </div>
-      </div>
     </section>
     <!-- Search Result: DevList -->
     <section class="devlist">
-      <div class="container">
-        <div class="grid grid--three">
-          {% for profile in moders %}
-          <div class="card card--dark" style="width: 320px; margin-right: 2%">
-            <div class="dev">
-              <a href="{% url 'current-profile' profile.id %}" class="card__body">
-                <div class="dev__profile">
-                  <img class="avatar avatar--md" src="{{ profile.get_profile_img }}" alt="image" />
-                  <div class="dev__meta">
-                    <h3>{{profile.name}}</h3>
-                    {% if profile.short_intro %}
-                    <h5>{{profile.short_intro}}</h5>
-                    {% endif %}
-                  </div>
+        <div class="container">
+            <div class="grid grid--three">
+
+                {% for profile in moders %}
+                <div class="column card" style="background-color: black;">
+                    <div class="dev">
+                        <a href="{% url 'current-profile' profile.id  %}" class="card__body">
+                            <div class="dev__profile">
+                                <img class="avatar avatar--md" src="{{ profile.get_profile_img  }}" alt="image" />
+                                <div class="dev__meta">
+                                    <h3>{{profile.name}}</h3>
+                                    <h5>{{profile.short_intro|slice:"60"}}</h5>
+                                </div>
+                            </div>
+                            <p class="dev__info">{{ profile.short_bio|slice:'150'|safe }}
+                              {% if profile.short_bio|length > 150 %}...{% endif %}</p>
+                            <div class="dev__skills">
+                                {% for skill in profile.skill_set.all|slice:"5"%}
+                                <span class="tag tag--outline tag--pill tag--main">
+                                  <small>{{ skill.name }}</small>
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                
-                <p class="dev__info">{{ profile.short_bio|slice:'150'|safe }}
-                  {% if profile.short_bio|length > 150 %}...{% endif %}</p>
-                
-                <div class="dev__skills">
-                  {% for skill in profile.skill_set.all|slice:"5"%}
-                  <span class="tag tag--outline tag--pill tag--main">
-                    <small>{{ skill.name }}</small>
-                  </span>
-                  {% endfor %}
-                </div>
-                
-              </a>
+                {% endfor %}
+
             </div>
-          </div>
-          {% endfor %}
         </div>
-      </div>
     </section>
 
-    {% include 'pagination.html' with queryset=moders custom_range=custom_range %}
-  </main>
-{% endblock %}
+    {% include 'pagination.html' with queryset=profiles custom_range=custom_range %}
+</main>
+
+{% endblock content %}

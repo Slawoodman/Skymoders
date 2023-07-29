@@ -34,6 +34,9 @@ body {
   font-weight: 400;
   font-size: 1.5rem;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background-image: url(https://images5.alphacoders.com/131/1315219.jpeg);
+  background-size: cover; /* Display the background image in its original size */
+  /* background-color: var(--color-bg); */
   min-height: 100vh;
+  background-repeat: no-repeat;
 }
