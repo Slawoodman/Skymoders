@@ -1,9 +1,17 @@
 {% extends 'main.html' %}
 {% block content %}
+<style>
+  li.message.message--unread > a span {
+  color: var(--color-white);
+}
+
+</style>
+
+
   <main class="inbox my-xl">
-    <div class="content-box">
-      <h3 class="inbox__title">New Messages(<span>{{unread}}</span>)</h3>
-      <ul class="messages">
+    <div class="content-box" style="background-color: #27172e69;">
+      <h3 class="inbox__title" style="color: var(--color-light)">New Messages(<span style="color: #67968bbd;">{{unread}}</span>)</h3>
+      <ul class="messages" style="background-color: black;">
         {% for mes in messagesRequest %}
         {% if mes.is_read == False%}
         <li class="message message--unread">

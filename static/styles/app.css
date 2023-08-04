@@ -532,7 +532,7 @@ img {
 .comments {
   margin-top: 4rem;
   padding-top: 3rem;
-  border-top: 2px solid var(--color-light);
+  border-top: 2px solid black;
 }
 
 .comments .form label {
@@ -599,7 +599,7 @@ img {
 }
 
 .settings__table tr:not(:last-child) td {
-  border-bottom: 2px solid var(--color-white-light);
+  border-bottom: 2px solid black;
 }
 
 .settings__thumbnail {
@@ -651,7 +651,6 @@ img {
 
 .auth::after {
   z-index: -1;
-  opacity: 0.1;
   content: '';
   display: block;
   position: fixed;
@@ -659,7 +658,10 @@ img {
   left: 0;
   bottom: 0;
   right: 0;
-  background: url(../images/pattern.jpg);
+  background: url(/static/images/patt.jpg);
+  background-size: cover;
+  min-height: 100vh;
+  background-repeat: no-repeat;
 }
 
 .auth > .card {
@@ -738,10 +740,11 @@ img {
 
 .messages {
   list-style: none;
-  background: var(--color-white);
+  background: var(--color-sub);
   padding: 0.5rem 3rem;
   border: 2px solid var(--color-light);
   border-radius: 0.7rem;
+  color: var(--color-sub);
 }
 
 .message {
@@ -753,9 +756,17 @@ img {
   font-weight: 500;
 }
 
+.message.message--unread {
+  color: var(--color-light);
+}
+
+li.message.message--unread > a span {
+  color: var(--color-white);
+}
+
 .message.message--unread a span {
   font-weight: 700;
-  color: var(--color-sub);
+  color: var(--color-white);
 }
 
 .message:not(:last-child) {
@@ -812,8 +823,8 @@ img {
 }
 
 .backButton {
-  background: var(--color-main-light);
-  color: var(--color-main);
+  background: var(--color-sub-light);
+  color: white;
   width: 4rem;
   height: 4rem;
   display: flex;

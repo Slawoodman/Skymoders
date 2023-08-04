@@ -22,13 +22,13 @@
 .form__field > label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--color-text);
+  color: var(--color-light);
 }
 
 .form__label--inline {
   display: inline-block;
   margin-bottom: 0.8rem;
-  color: var(--color-text);
+  color: var(--color-light);
 }
 
 .form__label--hidden {
@@ -78,7 +78,7 @@ textarea.input:active {
   margin-right: 3rem;
   font-size: 1.5rem;
   font-weight: 400;
-  color: var(--color-text);
+  color: var(--color-light);
 }
 
 .form__field--radio input + label,
@@ -88,7 +88,7 @@ textarea.input:active {
   margin-right: 2rem;
   margin-bottom: 0;
   cursor: pointer;
-  color: var(--color-text);
+  color: var(--color-light);
 }
 
 .input--textarea {

@@ -3,22 +3,22 @@
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
-            <div class="formWrapper">
-                <a class="backButton" href="{{request.GET.next}}"><</i></a>
+            <div class="formWrapper" style="background-color: black;">
+                <a class="backButton" style=" background: var(--color-sub-light);color: white;" href="{{request.GET.next}}"><</i></a>
                 <br>
 
-                <form class="form" method="POST">
+                <form class="form" method="POST" >
                     {% csrf_token %}
                     {% if page == 'delacc' %}
-                        <p>{{obj|title}} are you sure you want to delete u'r account?</p>
+                        <p style="color: var(--color-white);">{{obj|title}} are you sure you want to delete u'r account?</p>
                     {% elif page == 'unfriend' %}
-                        <p>{{request.user|title}} are you sure you want to unfriend {{obj|title}}?</p>
+                        <p style="color: var(--color-white);">{{request.user|title}} are you sure you want to unfriend {{obj|title}}?</p>
                     {% elif page == 'decline' %}
-                        <p> {{request.user|title}} are you sure you want to decline friend request from {{obj|title}}?</p>
+                        <p style="color: var(--color-white);"> {{request.user|title}} are you sure you want to decline friend request from {{obj|title}}?</p>
                     {% elif page == 'cancel' %}
-                        <p> {{request.user|title}} are you sure you want to  cancel friend request to {{obj|title}}?</p>
+                        <p style="color: var(--color-white);"> {{request.user|title}} are you sure you want to  cancel friend request to {{obj|title}}?</p>
                     {% else %}
-                        <p>Are your sure you want to delete this "{{obj}}"?</p>
+                        <p style="color: var(--color-white);">Are your sure you want to delete this "{{obj}}"?</p>
                     {% endif %}
                     <a class="btn btn--sub btn--lg  my-md" href="{{request.GET.next}}"> Go Back</a>
                     {% if page == 'decline'%}

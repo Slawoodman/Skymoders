@@ -4,61 +4,71 @@
 <head>
     <script src="https://kit.fontawesome.com/95f8f67f8f.js" crossorigin="anonymous"></script>
 </head>
-<main class="profile my-md">
-    <div class="container">
+<main class="profile">
+    <div class="container" style="background-color: var(--color-sub);">
       <div class="layout">
         <div class="column column--1of3">
-          <div class="card text-center">
+          <div class="card text-center" style="border: 2px solid var(--color-sub-light); background-color: black;">
             <div class="card__body dev">
               <img class="avatar avatar--xl" src="{{ moder.get_profile_img }}" />
-              <h2 class="dev__name">{{moder.name }}</h2>
+              <h2 class="dev__name" style="color: var(--color-light);">{{moder.name }}</h2>
               <p class="dev__title">{{moder.short_intro}}</p>
               <p class="dev__location">Region {{moder.region}}</p>
               
               {% if is_friend %}
-                <a href="" class="btn btn--sub  btn--lg">Send Message </a>
+                <a href="{% url 'send-message' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}">
+                  <i class="fa-regular fa-envelope fa-xl" style="color: #ffffff; font-size: 3em; margin-top: 40px;"></i></a>
               {% elif is_friend == False and is_self %}
-                <a href="{% url 'friends:show_requests' %}" class="btn btn--main  btn--sub">Friend requests {{friend_requests | length}} </a>
+                <a href="{% url 'friends:show_requests' %}" class="btn btn--main  btn--sub" 
+                style=" background: var(--color-sub);color: white; margin: 5%;">Friend requests {{friend_requests | length}} </a>
               {%endif%}
 
               {% if request_sent == 0 %}
               <ul class="dev__social" style="background-color: white; border-radius: 10px; border-color: var(--color-main);">
                 <li >
                     <a>
-                        <a style="color: var(--color-text);" class="">
+                        <a style="color: var(--color-text); color: var(--color-sub);">
                             Accept Friend Request
                         </a>
-                        <a style="margin-left: 10px;" href="{% url 'friends:accept-friend' pk=request_id %}"><i class='fas fa-user-check'></i></a>
-                        <a style="margin-left: 10px;" href="{% url 'friends:decline-friend' pk=request_id %}?next={% url 'current-profile' pk=moder.id %}"><i class='fas fa-user-minus'></i></a>
+                        <br>
+                        <a style="margin-left: 10px;  color: var(--color-sub);" href="{% url 'friends:accept-friend' pk=request_id %}">
+                          <i class='fas fa-user-check'></i></a>
+                        <a style="margin-left: 30%; color: var(--color-sub);" href="{% url 'friends:decline-friend' pk=request_id %}?next={% url 'current-profile' pk=moder.id %}">
+                          <i class='fas fa-user-minus'></i></a>
                     </a>
                 </li>
 
               </ul>
               {% elif is_friend == False and is_self == False %}
                 {% if request_sent == 1 %}
-                  <a href="{% url 'friends:cancel_friend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px; color: black;">Cancel friend request</a>
+                  <a href="{% url 'friends:cancel_friend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}" class="btn btn--main btn"
+                   style=" background: var(--color-sub);color: white; margin-top: 10px;">Cancel friend request</a>
                 {% endif %}
                 {% if request_sent == -1 %}
-                  <a href="{% url 'friends:send_request' pk=moder.id %}" class="btn btn--main btn" style="margin-top: 10px;">Send friend request</a>
+                  <a href="{% url 'friends:send_request' pk=moder.id %}" class="btn btn--main btn" 
+                  style="background-color: var(--color-light); color: var(--color-sub); margin-top: 10px;">Send friend request</a>
                 {% endif %}
               {% endif %}
 
-              <ul class="dev__social">
+              <ul class="dev__social" >
                 {% if acc_friends == 1%}
                 <li>
-                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}"><i class='fas fa-user-friends'></i> {{ acc_friends }} friend </a></i>
+                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}" style="color: white;">
+                      <i class='fas fa-user-friends'></i> {{ acc_friends }} friend </a></i>
                 </li>
                 {% elif acc_friends > 1 %}
                 <li>
-                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}"><i class='fas fa-user-friends'></i> {{ acc_friends }} friends </a></i>
+                    <a href="{% url 'friends:list_of_friends' user_id=moder_id %}" style="color: white;">
+                      <i class='fas fa-user-friends'></i> {{ acc_friends }} friends </a></i>
                 </li>
                 {% else %}
                 <li>
-                    <a><i class='fas fa-user-friends'></i> {{ acc_friends }} friends </a></i>
+                    <a><i class='fas fa-user-friends' style="color: white;"></i> {{ acc_friends }} friends </a></i>
                 </li>
                 {% endif %}
                 {% if is_friend %}
-                  <a href="{% url 'friends:unfriend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}">Remove <i class="fa-solid fa-user-minus"></i></a>
+                  <a href="{% url 'friends:unfriend' pk=moder.id %}?next={% url 'current-profile' pk=moder.id %}" style="color: white;">
+                    Remove <i class="fa-solid fa-user-minus"></i></a>
                 {% endif %}
                 
               </ul>
@@ -67,22 +77,22 @@
           </div>
         </div>
         <div class="column column--2of3">
-          <div class="devInfo">
-            <h3 class="devInfo__title">About Me</h3>
+          <div class="devInfo" style="margin: 15px;">
+            <h3 class="devInfo__title" style="color: var(--color-light); margin: 15px;">About Me</h3>
             <p class="devInfo__about">{{moder.bio| safe}}</p>
           </div>
           <div class="devInfo">
-            <h3 class="devInfo__title">Skills</h3>
+            <h3 class="devInfo__title" style="color: var(--color-light); margin: 10px;">Skills</h3>
             <div class="devInfo__skills">
               {% for skill in specSkill %}
               <div class="devSkill">
-                <h4 class="devSkill__title">{{skill.name}}</h4>
-                <p class="devSkill__info">{{skill.description}}</p>
+                <h4 class="devSkill__title" style="margin: 15px;">{{skill.name}}</h4>
+                <p class="devSkill__info" style="margin: 15px;">{{skill.description}}</p>
               </div>
               {% endfor %}
 
-              <h3 class="devInfo__subtitle">Other Skills</h3>
-              <div class="devInfo__otherSkills">
+              <h3 class="devInfo__subtitle" style="color: var(--color-light); margin: 10px;">Other Skills</h3>
+              <div class="devInfo__otherSkills" style="margin: 15px;">
                 {% for extra in addskills %}
                 <span class="tag tag--pill tag--sub tag--lg">
                   <small><a href="{% url 'show-users' %}?search_query={{extra}}">{{extra}}</a></small>
@@ -91,17 +101,17 @@
               </div>
             </div>
           </div>
-          <div class="devInfo">
-            <h3 class="devInfo__title">Projects</h3>
+          <div class="devInfo" style="margin: 15px;">
+            <h3 class="devInfo__title" style="color: var(--color-light);">Projects</h3>
             <div class="grid grid--two">
               {% for mod in moder.mod_set.all %}
               <div class="column">
-                <div class="card project">
+                <div class="card project" style="border: 2px solid var(--color-sub-light); background-color: black;">
                   <a href="{% url 'modpage' mod.id %}" class="project">
                     <img class="project__thumbnail" src="{{mod.getImage}}" alt="project thumbnail" />
                     <div class="card__body">
-                      <h3 class="project__title">{{mod.title}}</h3>
-                      <p><a class="project__author" href="{% url 'current-profile' moder.id %}">By {{mod.owner}}</a></p>
+                      <h3 class="project__title" style="color: var(--color-light);">{{mod.title}}</h3>
+                      <p><a class="project__author" href="{% url 'current-profile' moder.id %}" style="color: var(--color-light);">By {{mod.owner}}</a></p>
                       <p class="project--rating">
                         <span style="font-weight: bold;">{{mod.vote_ration}}%</span> Postitive
                         Feedback ({{mod.vote_total}} Vote{{mod.vote_total|pluralize:"s"}})
@@ -109,7 +119,7 @@
                       
                       <div class="project__tags">
                         {% for tag in mod.tags.all %}
-                        <span class="tag tag--pill tag--main">
+                        <span class="tag tag--pill tag--sub tag">
                           <small>{{tag}}</small>
                         </span>
                         {% endfor %}

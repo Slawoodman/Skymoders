@@ -4,13 +4,13 @@
 {% if page == 'login' %}
 <body>
     <div class="auth">
-      <div class="card">
+      <div class="card" style="background-color: #00000096; border: 1.5px solid #dbc089ad;">
         <div class="auth__header text-center">
           <a href="{% url 'home' %}">
             <img src="{% static 'images/logo.ico' %}" alt="icon" />
           </a>
-          <h3>Account Login</h3>
-          <p>Hello skymoder, Welcome Back!</p>
+          <h3 style="color: #dbc089ad;">Account Login </h3>
+          <p>Daar junaar vokun, Viing.</p>
         </div>
 
         <form action="" class="form auth__form" method="POST">
@@ -39,13 +39,13 @@
             />
           </div>
           <div class="auth__actions">
-            <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
-            <a href="{% url 'reset-password' %}">Forget Password?</a>
+            <input class="btn btn--sub btn--lg" type="submit" value="Log In"  style="background-color: #1c19218f;; color: #dbc089ad;"/>
+            <a href="{% url 'reset-password' %}" style="color: #dbc089ad;">Forget Password?</a>
           </div>
         </form>
         <div class="auth__alternative">
           <p>Don’t have an Account?</p>
-          <a href="{% url 'register-user' %}">Sign Up</a>
+          <a href="{% url 'register-user' %}" style="color: #dbc089ad;">Sign Up</a>
         </div>
       </div>
     </div>
@@ -53,13 +53,13 @@
 {% else %}
 <body>
   <div class="auth">
-    <div class="card">
+    <div class="card" style="background-color: #00000096; border: 1.5px solid #dbc089ad; margin-top: 270px;">
       <div class="auth__header text-center">
         <a href="{% url 'home' %}">
           <img src="{% static 'images/logo.ico'%}" alt="icon" />
         </a>
-        <h3>Register an account</h3>
-        <p>Create a new developer account</p>
+        <h3  style="color: #dbc089ad;">Register an account</h3>
+        <p>Dir ko suleyk.</p>
       </div>
 
       <form action="{% url 'register-user' %}" class="form auth__form" method="POST">
@@ -70,9 +70,6 @@
         <div class="form__field">
           <label for="formInput#text">{{field.label}}: </label>
           {{field}}
-          <!-- {% if field.help_text%}
-          <small>{{field.help_text}}</small>
-          {% endif %} -->
           {% for error in field.errors %}
             <p style="color: red;">{{error}}</p>
           {% endfor %}
@@ -82,12 +79,12 @@
         {% endfor %}
 
         <div class="auth__actions">
-          <input class="btn btn--sub btn--lg" type="submit" value="Sign  In" />
+          <input class="btn btn--sub btn--lg" type="submit" style="background-color: #1c19218f;; color: #dbc089ad;" value="Sign  In" />
         </div>
       </form>
       <div class="auth__alternative">
         <p>Already have an Account?</p>
-        <a href="{% url 'login-user' %}">Log In</a>
+        <a href="{% url 'login-user' %}" style="color: #dbc089ad;">Log In</a>
       </div>
     </div>
   </div>

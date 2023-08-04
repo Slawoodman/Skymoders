@@ -24,12 +24,20 @@ input[type='password']:active
   outline: none;
   border: 2px solid var(--color-main);
 }
+
+body{
+    background-image: url(/static/images/patt.jpg);
+    background-size: cover;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+}
+
 </style>
 <main class="formPage my-xl">
         <div class="content-box">
-            <div class="formWrapper">
+            <div class="formWrapper" style="background-color: #00000096; border: 1.5px solid #dbc089ad;">
                 
-                <h1>Enter new password</h1>
+                <h1 style="color: #dbc089ad;">Enter new password</h1>
                 <p>
                     Please enter your new password twice so we can verify you typed it in correctly.
                 </p>
@@ -37,7 +45,7 @@ input[type='password']:active
                 <form class="form" method="POST">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" style="background-color: #1c19218f;; color: #dbc089ad;"/>
                 </form>
             </div>
         </div>

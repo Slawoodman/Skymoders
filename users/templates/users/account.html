@@ -1,17 +1,24 @@
 {% extends 'main.html'%}
 {% block content %}
 
-  <!-- Main Section -->
-  <main class="settingsPage profile my-md">
-    <div class="container">
+  <style>
+    .settings__table tr:not(:last-child) td {
+      border-bottom: 2px solid rgb(253, 253, 253);
+    }
+    p.devInfo__about  {
+      font-family: inherit  !important;
+    }
+  </style>
+  <main class="settingsPage profile" style="margin: none;">
+    <div class="container" style="background-color: var(--color-sub);">
       <div class="layout">
         <div class="column column--1of3">
-          <div class="card text-center">
+          <div class="card text-center" style="border: 2px solid var(--color-sub-light); background-color: black;">
             <div class="card__body dev">
-              <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-account' %}?next=/account/"><i class="im im-edit"></i> Edit</a>
-              <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-account' %}?next=/account/"><i class="im im-x-mark-circle-o"></i> Delete</a>
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-account' %}?next=/account/" style=" background: var(--color-sub); color: white;"><i class="im im-edit"></i> Edit</a>
+              <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-account' %}?next=/account/" style=" background: var(--color-sub); color: white;"><i class="im im-x-mark-circle-o"></i> Delete</a>
               <img class="avatar avatar--xl dev__avatar" src="{{ profile.get_profile_img }}" />
-              <h2 class="dev__name">{{profile.name}}</h2>
+              <h2 class="dev__name" style="color: var(--color-light);">{{profile.name}}</h2>
               <p class="dev__title">{{profile.short_intro}}</p>
               <p class="dev__location">{{profile.region}}</p>
               <ul class="dev__social">
@@ -40,27 +47,30 @@
           </div>
         </div>
         <div class="column column--2of3">
-          <div class="devInfo">
-            <h3 class="devInfo__title">About Me</h3>
+          <div class="devInfo" style="margin: 15px;">
+            <h3 class="devInfo__title" style="color: var(--color-light);">About Me</h3>
             <p class="devInfo__about">{{profile.bio| safe}}</p>
           </div>
-          <div class="settings">
+          <div class="settings" style="margin: 15px;">
             <h3 class="settings__title">Skills</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'add-skill' %}?next=/account/"><i class="im im-plus"></i> Add Skill</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'add-skill' %}?next=/account/"
+            style=" background: black;color: white;"><i class="im im-plus"></i> Add Skill</a>
           </div>
 
-          <table class="settings__table">
+          <table class="settings__table" style="border: 2px solid var(--color-sub-light); background-color: black; margin: 15px;">
             {%for skill in skills%}
             <tr>
               <td class="settings__tableInfo">
-                <h4>{{skill.name}}</h4>
+                <h4 style="color: var(--color-light);">{{skill.name}}</h4>
                 <p>
                   {{skill.description|slice:"150"}}
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-skill' skill.id %}?next=/account/"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-skill' skill.id %}?next=/account/"><i class="im im-x-mark-circle-o"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-skill' skill.id %}?next=/account/" style=" background: var(--color-sub);color: white;">
+                  <i class="im im-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-skill' skill.id %}?next=/account/" style=" background: var(--color-sub);color: white;">
+                  <i class="im im-x-mark-circle-o"></i>
                   Delete</a>
               </td>
             </tr>
@@ -69,27 +79,30 @@
              
           </table>
 
-          <div class="settings">
+          <div class="settings" style="margin: 15px;">
             <h3 class="settings__title">Projects</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-mod' %}"><i class="im im-plus"></i> Add mod</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-mod' %}"
+            style=" background: black;color: white;"><i class="im im-plus"></i> Add mod</a>
           </div>
 
-          <table class="settings__table">
+          <table class="settings__table" style="border: 2px solid var(--color-sub-light); background-color: black; margin: 15px;">
             {% for mod in mods %}
             <tr>
               <td class="settings__thumbnail">
                 <a href="{% url 'modpage' mod.id %}"><img src="{{mod.getImage}}" alt="Mod Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="{% url 'modpage' mod.id %}">{{ mod.title }}</a>
+                <a href="{% url 'modpage' mod.id %}" style="color: var(--color-light);">{{ mod.title }}</a>
                 <p>
                   {{ mod.short_intro|slice:'150'|safe }}
                   {% if mod.short_intro|length > 150 %}...{% endif %}
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-mod' mod.id %}?next=/account/"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-mod' mod.id %}?next=/account/"><i class="im im-x-mark-circle-o"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-mod' mod.id %}?next=/account/" style=" background: var(--color-sub);color: white;"
+                ><i class="im im-edit"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-mod' mod.id %}?next=/account/" style=" background: var(--color-sub);color: white;"
+                ><i class="im im-x-mark-circle-o"></i>
                   Delete</a>
               </td>
             </tr>

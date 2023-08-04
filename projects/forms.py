@@ -18,7 +18,7 @@ class ModForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input"})
+            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})
 
 
 class ReviewForm(ModelForm):
@@ -30,4 +30,4 @@ class ReviewForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input"})
+            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})

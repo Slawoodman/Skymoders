@@ -14,7 +14,7 @@
   display: inline-block;
   width: 170px;
   height: 140px;
-  background-color: #eee;
+  background-color: black;
   margin: 20px;
   border-radius: 10px;
 }
@@ -72,7 +72,7 @@
   display: inline-block;
   width: 300px;
   height: 140px;
-  background-color: #eee;
+  background-color: black;
   margin: 20px;
   border-radius: 10px;
 }
@@ -123,8 +123,8 @@
 }
 
 .friend-requests .request-btn-row .decline-request {
-    background-color: var(--color-sub-light);
-    color: #fff;
+    background: var(--color-sub);
+    color: white;
     border: none;
     font-size: 16px;
     font-weight: bold;
@@ -134,9 +134,9 @@
 }
 
 .friend-requests .request-btn-row .friends {
-  border: 2px solid cornflowerblue;
+  border: 2px solid var(--color-sub);
   background-color: transparent;
-  color: var(--color-light-gray);
+  color: var(--color-light);
   font-size: 16px;
   font-weight: bold;
   text-align: center;
@@ -152,8 +152,8 @@
 }
   
 .friend-requests .request-btn-row .accept-request {
-    background-color: var(--color-main);
-    color: #fff;
+    background: var(--color-sub-lighter);
+    color: var(--color-sub-light);
     border: none;
     font-size: 16px;
     font-weight: bold;

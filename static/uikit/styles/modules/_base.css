@@ -34,9 +34,20 @@ body {
   font-weight: 400;
   font-size: 1.5rem;
   color: var(--color-text);
-  background-image: url(https://images5.alphacoders.com/131/1315219.jpeg);
-  background-size: cover; /* Display the background image in its original size */
-  /* background-color: var(--color-bg); */
+  background-image: url("/static/images/back.jpg");
+  background-size: cover;
   min-height: 100vh;
   background-repeat: no-repeat;
 }
+
+.mods-body {
+  background-image: url("/static/images/9.jpg");
+}
+
+.mod-body {
+  background-image: url(https://www.nexusmods.com/assets/images/default/bg_game_index.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+

@@ -4,16 +4,16 @@
   <!-- Main Section -->
   <main class="messagePage my-xl">
     <div class="content-box">
-      <div class="message">
-        <a class="backButton" href="{{request.GET.next}}"><</i></a>
-        <h2 class="message__subject">{{current_message.subject}}</h4>
+      <div class="message" style="background-color: black;">
+        <a class="backButton" style=" background: var(--color-sub-light);color: white;" href="{{request.GET.next}}"><</i></a>
+        <h2 class="message__subject" style="color: var(--color-light);">{{current_message.subject}}</h4>
           {% if current_message.sender %}
-          <a href="{% url 'current-profile' current_message.sender.id %}" class="message__author">{{current_message.sender}}</a>
+          <a href="{% url 'current-profile' current_message.sender.id %}" class="message__author" style="color: var(--color-light);">{{current_message.sender}}</a>
           {% else %}
           <p class="message__author">Deleted account</p>
           {% endif %}
           <p class="message__date">{{current_message.created}}</p>
-          <div class="message__body">{{current_message.body|linebreaksbr}}</div>
+          <div class="message__body" style="color: var(--color-light);">{{current_message.body|linebreaksbr}}</div>
       </div>
     </div>
   </main>
