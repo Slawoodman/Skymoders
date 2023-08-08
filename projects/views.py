@@ -4,7 +4,7 @@ import mimetypes
 import pathlib
 
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from users.views import profile
@@ -12,7 +12,7 @@ from users.views import profile
 
 from . import utils
 from .models import Mod, Gallery
-from .forms import ModForm, ReviewForm
+from .forms import ModForm, ReviewForm, ImageForm
 
 
 def convert_bytes(size):
@@ -141,20 +141,26 @@ def deleteMod(request, pk):
 
 
 def modGallery(request, pk):
-    mod = Mod.objects.get(id=pk)
-    images = mod.gallery_set.all()
-    author_images = images.filter(user_owner=mod.owner)
-    users_images = []
-    for image in images:
-        if image not in author_images:
-            users_images.append(image)
+    filtro = request.GET.get('imageFilter')
+    try:
+        mod = Mod.objects.get(id=pk)
+        images = mod.gallery_set.all()
+        
+        if filtro == 'mod_owner':
+            images = images.filter(user_owner=mod.owner)
+        elif filtro == 'users':
+            images = images.exclude(user_owner=mod.owner)
+    except:
+        pass
+    images, custom_range = utils.modPaginate(request, images, 6)
     context = {
         "mod": mod,
         "images": images,
-        "Author": author_images,
-        "Users": users_images,
+        "custom_range": custom_range,
+        "imageFilter": filtro
     }
-    return render(request, "projects/gallery.html", context)
+    print(request.user, mod.owner)
+    return render(request, "projects/gal.html", context)
 
 
 @login_required(login_url="login-user")
@@ -175,12 +181,47 @@ def addImage(request, pk):
 
 @login_required(login_url="login-user")
 def editGallery(request, pk):
-    profile = request.user.profile
     mod = Mod.objects.get(id=pk)
-    images = mod.gallery_set.all().filter(user_owner=profile.id)
-    context = {"page": "page", "images": images, "mod": mod}
-    return render(request, "projects/gallery.html", context)
+    filtro = ''
+    if request.user == mod.owner.user:
+        images = mod.gallery_set.all()
+        filtro = request.GET.get('imageFilter')
+        if filtro == 'mod_owner':
+            images = images.filter(user_owner=mod.owner)
+        elif filtro == 'users':
+            images = images.exclude(user_owner=mod.owner)
+        print('tyt')
+    else:
+        profile = request.user.profile
+        images = mod.gallery_set.all().filter(user_owner=profile.id)
+        print('ne tyt')
 
+    images, custom_range = utils.modPaginate(request, images, 6)
+    context = {
+        "page": "page",
+        "mod": mod,
+        "images": images,
+        "custom_range": custom_range,
+        "imageFilter": filtro
+    }
+    return render(request, "projects/gal.html", context)
+
+@login_required(login_url="login-user")
+def change_img(request, pk):
+    img = get_object_or_404(Gallery, id=pk)
+    mod = img.parent.id
+    if request.user == img.user_owner.user:
+        form = ImageForm(instance=img)
+        if request.method == 'POST':
+            form = ImageForm(request.POST, request.FILES, instance=img)
+            if form.is_valid():
+                form.save()
+                return redirect("edit-gallery", pk=mod)
+    else:
+        messages.error(request, "U can't change another user image")
+        return redirect("edit-gallery", pk=mod)
+    context = {'form':form,'img': img, 'page':'change'}
+    return render(request, "projects/form-template.html", context)
 
 @login_required(login_url="login-user")
 def deleteImg(request, pk):
@@ -189,5 +230,5 @@ def deleteImg(request, pk):
     if request.method == "POST":
         img.delete()
         return redirect("edit-gallery", pk=mod)
-    context = {"obj": img}
+    context = {"obj": img, 'page': 'img'}
     return render(request, "delete.html", context)

@@ -120,7 +120,6 @@ def profile(request, pk):
 
         is_self = False
         if friends.filter(pk=moder.user.id):
-            # print(f"{request.user} friend with {friends.get(pk=moder.user.id)}")
             is_friend = True
         else:
             if get_frine_requet_or_false(sender=moder.user, receiver=user) != False:
@@ -160,7 +159,12 @@ def userAccount(request):
     profile = request.user.profile
     skills = profile.skill_set.all()
     mods = profile.mod_set.all()
-    context = {"profile": profile, "skills": skills, "mods": mods}
+    requests = FriendRequest.objects.filter(
+        receiver = profile.user, is_active=True
+    )
+    friends = len(FriendList.objects.get(user=profile.user).friends.all())
+    context = {"profile": profile, "skills": skills, 
+               "mods": mods, "friend_requests": requests, "acc_friends":friends}
     return render(request, "users/account.html", context)
 
 

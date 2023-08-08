@@ -3,16 +3,43 @@
 <body>
     <main class="formPage my-xl" >
         <div class="content-box">
-            <div class="formWrapper" style="background-color: var(--color-sub);">
-                <a class="backButton" style=" background: var(--color-sub-light);color: white;" href="{{request.GET.next}}"><</i></a>
+            <div class="formWrapper" 
+            {% if page %}
+            style="background-color: #00000096; border: 1.5px solid #dbc089ad;" 
+            
+            {% else%}
+            style="background-color: var(--color-sub);"
+            {% endif %}>
+                <a class="backButton"
+                    {% if page %}
+                        style="background-color: #00000096; border: 1.5px solid #dbc089ad;" 
+            
+                    {% else%}
+                        style=" background: var(--color-sub-light);color: white;" 
+                    {% endif %} 
+                 href="{{request.GET.next}}"><</i></a>
                 <br>
-                {% if page %}
-                <form method="POST" enctype="multipart/form-data" >
-                    {% csrf_token %}
-                    <label>Upload images</label>
-                    <input required name="images" type="file" multiple/>
-                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
-                </form> 
+                {% if page == 'change' %}
+                <body class="gal-body">
+                    <h2 style="color: #dbc089ad;">Change Image</h2>   
+                    <form class="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    <input  class="btn btn--sub btn--lg  my-md" type="submit" value="Change Image" style="background-color: #1c19218f;
+                    color: #dbc089ad;">
+                    </form>
+                </body>
+                
+                {% elif page %}
+                <body class="gal-body"> 
+                    <form method="POST" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <label style="color: #dbc089ad;">Upload images</label>
+                        <input required name="images" type="file" multiple/>
+                        <input class="btn btn--sub btn--lg  my-md" type="submit" value="Upload" style="background-color: #1c19218f;
+                        color: #dbc089ad;" />
+                    </form>
+                </body>
                 {% else %}
                 <form class="form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}

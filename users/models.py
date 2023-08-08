@@ -21,10 +21,6 @@ class Profile(models.Model):
         upload_to="profiles/",
         default="profiles/default-user.png",
     )
-    social_patreon = models.CharField(max_length=200, blank=True, null=True)
-    social_twitch = models.CharField(max_length=200, blank=True, null=True)
-    social_linkedin = models.CharField(max_length=200, blank=True, null=True)
-    social_website = models.CharField(max_length=200, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
 

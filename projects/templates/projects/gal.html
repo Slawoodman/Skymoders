@@ -1,0 +1,173 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Tutorial</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/lightbox.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/images.css' %}">
+    
+    <script
+      type="text/javascript"src="{% static 'js/lightbox-plus-jquery.min.js' %}"></script>
+</head>
+<style>
+body{
+    background-image: url(/static/images/patt.jpg);
+    background-size: cover;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+}
+
+.project__thumbnail {
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+.project__thumbnail:hover {
+    filter: none;
+}
+
+#imageFilterForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  
+}
+
+
+#imageFilterForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.filter-form {
+  text-align: center;
+  background-color: #383838a1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #dbc089ad;
+  margin-right: 10px;
+}
+
+select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #0c0c0c;
+  border-radius: 5px;
+  outline: none;
+  background: #0000002b url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16'%3E%3Cpath fill='%23dbc089ad' d='M6 10l10 12 10-12z'%3E%3C/path%3E%3C/svg%3E") right 8px center no-repeat;
+  color: #dbc089ad;
+  /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Style custom arrow */
+  background-size: 16px 16px;
+  padding-right: 30px; /* Add space for the arrow icon */
+}
+
+/* Add styles for the expanded dropdown */
+select:focus {
+  border-color: #dbc089ad; /* Change border color when focused */
+  background-color: #0000002b; /* Set background color when expanded */
+  color: #dbc089ad; /* Keep the text color */
+}
+
+option {
+  background-color: #000000; /* Set background color for the options */
+  color: #d19723ad; /* Set text color for the options */
+}
+
+.bnt{
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #01040df2;
+  color: #dbc089ad;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+bnt:hover {
+  background-color: #00000096;
+}
+</style>
+  {% if page and request.user == mod.owner.user or not page %}
+  <form id="imageFilterForm">
+    <label for="imageFilter">Filter images:</label>
+    <select name="imageFilter" id="imageFilter" value="{{imageFilter}}">
+      <option value="all">All Images</option>
+      <option value="mod_owner">Images Added by Mod Owner</option>
+      <option value="users">Images Added by Users</option>
+    </select>
+    <button type="submit" class="bnt">Filter</button>
+  </form>
+  {% endif %}
+  <h1 style="text-align: center; color: #dbc089ad;">{{mod.title}}</h1>
+  <h2 style="text-align: center; color: #dbc089ad;">Gallery
+  
+    {% if not page %}
+    <a href="{% url 'edit-gallery' mod.id%}?next={{request.path}}"><i class="fa-solid fa-gear" style="color: #e4e4e4ad;"></i></a>
+    {% else %}
+    <a href="{% url 'add-images' mod.id %}?next={{request.path}}"><i class="fa-solid fa-folder-plus" style="color: #e4e4e4ad;"></i></a>
+    {% endif %}
+    </i>
+  </h2>
+<section class="projectsList" style="margin-top: 0%;">
+    
+    <div class="container" >
+        <div class="grid grid--three">
+
+            {% for image in images %}
+            <div class="column" >
+                <div class="card project" style="background-color: black;">
+
+                    <a href="{{image.img.url}}" data-lightbox="mygallery"><img src="{{image.img.url}}" class="project__thumbnail"/></a>
+                    <div class="card__body">
+                        {% if image.title %}
+                        <h3 class="project__title" style="color: var(--color-light)">{{image.title}}</h3>
+                        {% else %}
+                        <h3 class="project__title" style="color: var(--color-light)">Added image</h3>
+                        {%endif%}
+                        <p><a class="project__author" href="{% url 'current-profile' image.user_owner.id %}" style="color: var(--color-light);">
+                          {% if image.user_owner == mod.owner %}
+                            By mod author
+                          {% else %}
+                            By {{image.user_owner}}
+                          {% endif %}
+                        </a>
+                        </p>
+                        {% if page %}
+                        <p>
+                          {% if request.user == image.user_owner.user %}
+                          <a href="{% url 'change_image' image.id %}?next={{request.path}}" class="bnt">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i></ia>
+                          {% endif %}
+                          <a href="{% url 'delete-img' image.id %}?next={{request.path}}" class="bnt">
+                            <i class="fa-solid fa-folder-minus"></i></a>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+{% include 'pagination.html' with queryset=images custom_range=custom_range  page='gallery'%}
+
+</main>
+{% endblock %}

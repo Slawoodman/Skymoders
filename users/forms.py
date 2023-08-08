@@ -30,11 +30,7 @@ class ProfileForm(ModelForm):
             "short_intro",
             "short_bio",
             "bio",
-            "profile_image",
-            "social_patreon",
-            "social_twitch",
-            "social_linkedin",
-            "social_website",
+            "profile_image"
         ]
 
     def __init__(self, *args, **kwargs):

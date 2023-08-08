@@ -51,3 +51,9 @@ body {
   background-size: 100% 100%;
 }
 
+.gal-body {
+  background-image: url(/static/images/patt.jpg);
+  background-size: cover;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+}

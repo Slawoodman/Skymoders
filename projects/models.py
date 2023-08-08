@@ -88,6 +88,7 @@ class Gallery(models.Model):
         Profile, on_delete=models.CASCADE, null=True, blank=True
     )
     img = models.ImageField(null=True, blank=True, upload_to="modgallery/")
+    title = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.parent} {self.id}"

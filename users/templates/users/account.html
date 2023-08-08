@@ -22,26 +22,28 @@
               <p class="dev__title">{{profile.short_intro}}</p>
               <p class="dev__location">{{profile.region}}</p>
               <ul class="dev__social">
-                {% if profile.social_patreon %}
+                {% if acc_friends == 1%}
                 <li>
-                  <a title="Github" href="{{profile.social_patreon}}" target="_blank"><i class="im im-github"></i></a>
+                    <a title="Friend" href="{% url 'friends:list_of_friends' user_id=profile.id %}" style="color: white;">
+                      <i class='fas fa-user-friends'> {{ acc_friends }}</i> </a>
+                </li>
+                {% elif acc_friends > 1 %}
+                <li>
+                    <a title="Friends" href="{% url 'friends:list_of_friends' user_id=profile.id %}" style="color: white;">
+                      <i class='fas fa-user-friends' style="color: white;"> {{ acc_friends }}</i ></a>
+                </li>
+                {% else %}
+                <li>
+                    <a title="Friends" href="{% url 'friends:list_of_friends' user_id=profile.id  %}">
+                      <i class='fas fa-user-friends' style="color: white;"> {{ acc_friends }}</i> </a>
                 </li>
                 {% endif %}
-                {% if profile.social_twitch %}
                 <li>
-                  <a title="Twitter" href="{{profile.social_twitch}}" target="_blank"><i class="im im-twitter"></i></a>
-                </li>
-                {% endif %}
-                {% if profile.social_linkedin %}
-                <li>
-                  <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i class="im im-linkedin"></i></a>
-                </li>
-                {% endif %}
-                {% if profile.social_website %}
-                <li>
-                  <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i class="im im-globe"></i></a>
-                </li>
-                {% endif %}
+                  <a title="Requests" href="{% url 'friends:show_requests' %}" 
+                style="color: white;" class="friend-requests .request-btn-row .friends">
+                <i class="fa-solid fa-person-circle-question"> {{friend_requests | length}}</i>
+              </a>
+                </li> 
               </ul>
             </div>
           </div>

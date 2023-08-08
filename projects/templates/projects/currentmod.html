@@ -50,7 +50,7 @@
             </span>
             {% endfor %}
           </div>
-          <a class="singleProject__liveLink" href="{% url 'gallery' mod.id %}?next={{request.path}}" target="_blank" style="margin-left: 15%; justify-content: space-between;"><i class="im im-external-link"></i>Mod gallery
+          <a class="singleProject__liveLink" href="{% url 'gallery' mod.id %}?next={{request.path}}"  style="margin-left: 15%; justify-content: space-between;"><i class="im im-external-link"></i>Mod gallery
           </a>
           {% if mod.modfile %}
           <a class="singleProject__liveLink" href="{% url 'downloadmod' pk=mod.id %}" ><i class="im im-external-link"></i>Download

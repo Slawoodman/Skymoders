@@ -1,4 +1,25 @@
 {% if queryset.has_other_pages %}
+  {% if page %}
+    <div class="pagination" style="margin-top: 0%;">
+      <ul class="container">
+      {% if queryset.has_previous %}
+        <li><a href="?imageFilter={{imageFilter}}&page={{queryset.previous_page_number}}" class="btn btn--disabled">&#10094; Prev</a></li>
+      {% endif %}
+      {% for page  in custom_range %}
+        {% if page == queryset.number %}
+          <li><a href="?imageFilter={{imageFilter}}&page={{page}}" class="btn page-link btn--sub">{{page}}</a></li>
+        {% else %}
+          <li><a href="?imageFilter={{imageFilter}}&page={{page}}" class="btn page-link">{{page}}</a></li>
+        {% endif %}
+      
+
+      {% endfor %}
+      {% if queryset.has_next %}
+        <li><a href="?imageFilter={{imageFilter}}&page={{queryset.next_page_number}}" class="btn btn--disabled">Next &#10095;</a></li>
+      {% endif %}
+      </ul>
+    </div>
+  {% else %}
     <div class="pagination">
       <ul class="container">
         {% if queryset.has_previous %}
@@ -18,4 +39,5 @@
         {% endif %}
       </ul>
     </div>
+  {% endif %}
 {% endif %}
