@@ -45,20 +45,18 @@ def currentmod(request, pk):
         review.save()
         messages.success(request, "U'r review was successfully submitted")
         return redirect("modpage", pk=data.id)
-    
+
     file_path = data.modfile.path
     try:
         os.path.exists(file_path)
         f_size = os.path.getsize(file_path)
         size = convert_bytes(f_size)
     except:
-        size = '0.0 bytes'
+        size = "0.0 bytes"
 
-            
-    
     if data.getVoteCount:
         data.getVoteCount
-    
+
     context = {"mod": data, "form": form, "size": size}
     return render(request, "projects/currentmod.html", context)
 
@@ -141,14 +139,14 @@ def deleteMod(request, pk):
 
 
 def modGallery(request, pk):
-    filtro = request.GET.get('imageFilter')
+    filtro = request.GET.get("imageFilter")
     try:
         mod = Mod.objects.get(id=pk)
         images = mod.gallery_set.all()
-        
-        if filtro == 'mod_owner':
+
+        if filtro == "mod_owner":
             images = images.filter(user_owner=mod.owner)
-        elif filtro == 'users':
+        elif filtro == "users":
             images = images.exclude(user_owner=mod.owner)
     except:
         pass
@@ -157,7 +155,7 @@ def modGallery(request, pk):
         "mod": mod,
         "images": images,
         "custom_range": custom_range,
-        "imageFilter": filtro
+        "imageFilter": filtro,
     }
     print(request.user, mod.owner)
     return render(request, "projects/gal.html", context)
@@ -182,19 +180,19 @@ def addImage(request, pk):
 @login_required(login_url="login-user")
 def editGallery(request, pk):
     mod = Mod.objects.get(id=pk)
-    filtro = ''
+    filtro = ""
     if request.user == mod.owner.user:
         images = mod.gallery_set.all()
-        filtro = request.GET.get('imageFilter')
-        if filtro == 'mod_owner':
+        filtro = request.GET.get("imageFilter")
+        if filtro == "mod_owner":
             images = images.filter(user_owner=mod.owner)
-        elif filtro == 'users':
+        elif filtro == "users":
             images = images.exclude(user_owner=mod.owner)
-        print('tyt')
+        print("tyt")
     else:
         profile = request.user.profile
         images = mod.gallery_set.all().filter(user_owner=profile.id)
-        print('ne tyt')
+        print("ne tyt")
 
     images, custom_range = utils.modPaginate(request, images, 6)
     context = {
@@ -202,9 +200,10 @@ def editGallery(request, pk):
         "mod": mod,
         "images": images,
         "custom_range": custom_range,
-        "imageFilter": filtro
+        "imageFilter": filtro,
     }
     return render(request, "projects/gal.html", context)
+
 
 @login_required(login_url="login-user")
 def change_img(request, pk):
@@ -212,7 +211,7 @@ def change_img(request, pk):
     mod = img.parent.id
     if request.user == img.user_owner.user:
         form = ImageForm(instance=img)
-        if request.method == 'POST':
+        if request.method == "POST":
             form = ImageForm(request.POST, request.FILES, instance=img)
             if form.is_valid():
                 form.save()
@@ -220,8 +219,9 @@ def change_img(request, pk):
     else:
         messages.error(request, "U can't change another user image")
         return redirect("edit-gallery", pk=mod)
-    context = {'form':form,'img': img, 'page':'change'}
+    context = {"form": form, "img": img, "page": "change"}
     return render(request, "projects/form-template.html", context)
+
 
 @login_required(login_url="login-user")
 def deleteImg(request, pk):
@@ -230,5 +230,5 @@ def deleteImg(request, pk):
     if request.method == "POST":
         img.delete()
         return redirect("edit-gallery", pk=mod)
-    context = {"obj": img, 'page': 'img'}
+    context = {"obj": img, "page": "img"}
     return render(request, "delete.html", context)

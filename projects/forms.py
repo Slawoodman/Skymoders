@@ -10,7 +10,14 @@ class ModForm(ModelForm):
 
     class Meta:
         model = Mod
-        fields = ["title", "featured_image", "short_intro", "description", "modfile", "tags"]
+        fields = [
+            "title",
+            "featured_image",
+            "short_intro",
+            "description",
+            "modfile",
+            "tags",
+        ]
         widgets = {
             "tags": forms.CheckboxSelectMultiple(),
         }
@@ -18,7 +25,12 @@ class ModForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})
+            field.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: var(--color-sub-light); color: var(--color-light);",
+                }
+            )
 
 
 class ReviewForm(ModelForm):
@@ -30,15 +42,25 @@ class ReviewForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ReviewForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})
+            field.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: var(--color-sub-light); color: var(--color-light);",
+                }
+            )
 
 
 class ImageForm(ModelForm):
     class Meta:
         model = Gallery
         fields = ["img", "title"]
-    
+
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "style":"background-color: #1c19218f; color: var(--color-light);"})
+            field.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: #1c19218f; color: var(--color-light);",
+                }
+            )

@@ -30,14 +30,19 @@ class ProfileForm(ModelForm):
             "short_intro",
             "short_bio",
             "bio",
-            "profile_image"
+            "profile_image",
         ]
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
 
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light);color: var(--color-light);"})
+            field.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: var(--color-sub-light);color: var(--color-light);",
+                }
+            )
 
 
 class SkillForm(ModelForm):
@@ -50,7 +55,12 @@ class SkillForm(ModelForm):
         super(SkillForm, self).__init__(*args, **kwargs)
 
         for key, value in self.fields.items():
-            value.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})
+            value.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: var(--color-sub-light); color: var(--color-light);",
+                }
+            )
 
 
 class MessageForm(ModelForm):
@@ -63,4 +73,9 @@ class MessageForm(ModelForm):
         super(MessageForm, self).__init__(*args, **kwargs)
 
         for key, field in self.fields.items():
-            field.widget.attrs.update({"class": "input", "style":"background-color: var(--color-sub-light); color: var(--color-light);"})
+            field.widget.attrs.update(
+                {
+                    "class": "input",
+                    "style": "background-color: var(--color-sub-light); color: var(--color-light);",
+                }
+            )

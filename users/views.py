@@ -117,7 +117,6 @@ def profile(request, pk):
     context["friends"] = friends
 
     if user.is_authenticated and user != moder.user:
-
         is_self = False
         if friends.filter(pk=moder.user.id):
             is_friend = True
@@ -159,12 +158,15 @@ def userAccount(request):
     profile = request.user.profile
     skills = profile.skill_set.all()
     mods = profile.mod_set.all()
-    requests = FriendRequest.objects.filter(
-        receiver = profile.user, is_active=True
-    )
+    requests = FriendRequest.objects.filter(receiver=profile.user, is_active=True)
     friends = len(FriendList.objects.get(user=profile.user).friends.all())
-    context = {"profile": profile, "skills": skills, 
-               "mods": mods, "friend_requests": requests, "acc_friends":friends}
+    context = {
+        "profile": profile,
+        "skills": skills,
+        "mods": mods,
+        "friend_requests": requests,
+        "acc_friends": friends,
+    }
     return render(request, "users/account.html", context)
 
 

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("projects", "0014_alter_mod_short_intro"),
         ("projects", "0015_alter_mod_view_count"),

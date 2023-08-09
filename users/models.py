@@ -14,7 +14,7 @@ class Profile(models.Model):
     region = models.CharField(max_length=200, blank=True, null=True)
     short_intro = models.CharField(max_length=200, blank=True, null=True)
     short_bio = models.TextField(max_length=200, blank=False, null=False)
-    bio = RichTextField(config_name='simple_toolbar')
+    bio = RichTextField(config_name="simple_toolbar")
     profile_image = models.ImageField(
         null=True,
         blank=True,

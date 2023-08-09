@@ -6,6 +6,7 @@ from .utils import profilesPaginate, profilesearch
 from django.contrib import messages
 from urllib.parse import urlparse, parse_qs
 
+
 @login_required(login_url="login-user")
 def send_friend_request(request, pk):
     previous_path = request.META.get("HTTP_REFERER")
@@ -15,13 +16,13 @@ def send_friend_request(request, pk):
     if receiver:
         receiver = receiver.user
         friend_requests = FriendRequest.objects.filter(sender=user, receiver=receiver)
-         #print(friend_requests)
+        # print(friend_requests)
         if friend_requests:
-             #print(friend_requests)
+            # print(friend_requests)
             for requ in friend_requests:
                 if requ.is_active:
                     messages.error(request, "You already sent them a friend request.")
-                     #print("You already sent them a friend request.")
+                    # print("You already sent them a friend request.")
                     return redirect(previous_path)
                 friend_request = FriendRequest(sender=user, receiver=receiver)
                 friend_request.save()
@@ -31,7 +32,7 @@ def send_friend_request(request, pk):
             friend_request = FriendRequest(sender=user, receiver=receiver)
             friend_request.save()
             messages.success(request, "Friend request sent.")
-             #print("Friend request sent.")
+            # print("Friend request sent.")
     return redirect(previous_path)
 
 
@@ -63,7 +64,7 @@ def accept_friend_request(request, pk):
             messages.error(request, "That is not your request to accept.")
     except:
         messages.error(request, "Friend request is't accessible")
-     #print(friend_request, pk)
+    # print(friend_request, pk)
     return redirect(previous_path)
 
 
@@ -71,13 +72,13 @@ def accept_friend_request(request, pk):
 def unfriend_user(request, pk):
     previous_path = request.META.get("HTTP_REFERER")
     parsed_url = urlparse(previous_path)
-    next_url = parse_qs(parsed_url.query).get('next', [''])[0]
+    next_url = parse_qs(parsed_url.query).get("next", [""])[0]
 
     user = request.user
     removee = Profile.objects.get(pk=pk)
     friend_list = FriendList.objects.get(user=user)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             friend_list.unfriend(removee.user)
             messages.success(request, "Successfully removed that friend.")
@@ -85,21 +86,21 @@ def unfriend_user(request, pk):
         except:
             messages.error(request, "Something went wrong.")
             return redirect(next_url)
-    context = {"obj": removee.user, 'page': 'unfriend'}
-    return render (request, "delete.html", context)
+    context = {"obj": removee.user, "page": "unfriend"}
+    return render(request, "delete.html", context)
 
 
 @login_required(login_url="login-user")
 def decline_friend(request, pk):
     previous_path = request.META.get("HTTP_REFERER")
     parsed_url = urlparse(previous_path)
-    next_url = parse_qs(parsed_url.query).get('next', [''])[0]
+    next_url = parse_qs(parsed_url.query).get("next", [""])[0]
 
     context = {}
-    
+
     try:
         friend_request = FriendRequest.objects.get(pk=pk)
-        if request.method == 'POST':
+        if request.method == "POST":
             if friend_request.receiver == request.user:
                 try:
                     friend_request.decline()
@@ -114,8 +115,8 @@ def decline_friend(request, pk):
     except:
         messages.error(request, "Friend request is't accessible.")
         return redirect(next_url)
-    context['page'] = 'decline'
-    context['obj'] = friend_request.receiver
+    context["page"] = "decline"
+    context["obj"] = friend_request.receiver
     return render(request, "delete.html", context)
 
 
@@ -123,35 +124,35 @@ def decline_friend(request, pk):
 def cancel_friend(request, pk):
     previous_path = request.META.get("HTTP_REFERER")
     parsed_url = urlparse(previous_path)
-    next_url = parse_qs(parsed_url.query).get('next', [''])[0]
+    next_url = parse_qs(parsed_url.query).get("next", [""])[0]
 
     context = {}
     try:
         receiver = Profile.objects.get(pk=pk).user
         try:
-                friend_request = FriendRequest.objects.filter(
+            friend_request = FriendRequest.objects.filter(
                 receiver=receiver, sender=request.user, is_active=True
-                )
-                if request.method == 'POST':
-                    print(friend_request)
-                    if len(friend_request) > 1:
-                        for req in friend_request:
-                            req.cancel()
-                            req.delete()
-                    else:
-                        friend_request.first().cancel()
-                        friend_request.first().delete()
-                    messages.success(request, "Friend request is canceled")
-                    return redirect(next_url)
-        except:
-                messages.error(request, "Friend request is't accessible.")
+            )
+            if request.method == "POST":
+                print(friend_request)
+                if len(friend_request) > 1:
+                    for req in friend_request:
+                        req.cancel()
+                        req.delete()
+                else:
+                    friend_request.first().cancel()
+                    friend_request.first().delete()
+                messages.success(request, "Friend request is canceled")
                 return redirect(next_url)
+        except:
+            messages.error(request, "Friend request is't accessible.")
+            return redirect(next_url)
     except:
         messages.error(request, "Unable to cancel friend request.")
         return redirect(next_url)
-    
-    context['page'] = 'cancel'
-    context['obj'] = receiver
+
+    context["page"] = "cancel"
+    context["obj"] = receiver
     return render(request, "delete.html", context)
 
 
@@ -174,7 +175,7 @@ def friend_list(request, user_id):
         "moder": profile.user,
         "custom_range": custom_range,
         "friend_request": friend_request,
-        "prev_page": page
+        "prev_page": page,
     }
     print(context)
 
